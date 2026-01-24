@@ -1,0 +1,93 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@400;500;600&family=Noto+Serif+KR:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Warm Neutrals */
+    --color-cream: #faf8f5;
+    --color-warm-white: #fffefb;
+    --color-soft-gray: #f5f3f0;
+    --color-warm-gray: #e8e4df;
+    --color-text-primary: #3d3a36;
+    --color-text-secondary: #6b6560;
+    --color-text-muted: #9a9590;
+
+    /* Spacing */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+
+    /* Transitions */
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  * {
+    @apply border-warm-gray;
+  }
+
+  body {
+    @apply bg-cream text-text-primary font-body antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus visible */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-rose;
+    outline-radius: 12px;
+  }
+}
+
+@layer components {
+  /* Page transition */
+  .page-enter {
+    animation: fadeInUp var(--duration-slow) var(--ease-out) forwards;
+  }
+
+  /* Touch target */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+}
+
+/* Gradient Orbs */
+.orb-sunset {
+  background: linear-gradient(135deg, #e5b8b7 0%, #f5d0c5 50%, #e8d5a8 100%);
+}
+.orb-ocean {
+  background: linear-gradient(135deg, #b8d4e3 0%, #a8c5a8 50%, #c5b8d9 100%);
+}
+.orb-blossom {
+  background: linear-gradient(135deg, #f5d0c5 0%, #e5b8b7 50%, #c5b8d9 100%);
+}
+.orb-forest {
+  background: linear-gradient(135deg, #a8c5a8 0%, #8fb38f 50%, #b8d4e3 100%);
+}
+.orb-dawn {
+  background: linear-gradient(135deg, #e8d5a8 0%, #f5d0c5 50%, #e5b8b7 100%);
+}
+.orb-twilight {
+  background: linear-gradient(135deg, #c5b8d9 0%, #e5b8b7 50%, #b8d4e3 100%);
+}
+
+/* Orb shimmer effect */
+.orb {
+  position: relative;
+  overflow: hidden;
+}
+.orb::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent);
+}
