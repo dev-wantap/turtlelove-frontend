@@ -32,7 +32,7 @@ export function Footer() {
         {/* 하단 영역 */}
         <div className="flex flex-col items-center gap-2 text-center">
           <p className="flex items-center gap-1 font-ui text-xs text-text-muted">
-            Made with <Heart size={12} className="text-rose" fill="currentColor" /> by TurtleLove Team
+            Made with <Heart size={12} className="text-rose" fill="currentColor" aria-hidden="true" focusable="false" /> by TurtleLove Team
           </p>
           <p className="font-ui text-xs text-text-muted">
             &copy; {currentYear} TurtleLove. All rights reserved.
