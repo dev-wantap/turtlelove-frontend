@@ -203,7 +203,11 @@ Response Body:
 ```sql
 {
   "id": 101,
-  "is_filtered": false 
+  "user_id": 55,
+  "content": "정말 힘드시겠어요.",
+  "is_filtered": false,
+  "is_mine": true,
+  "created_at": "2026-01-12T14:10:00"
 }
 ```
 

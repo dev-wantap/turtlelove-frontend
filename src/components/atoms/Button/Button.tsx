@@ -66,6 +66,16 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref
   ) => {
+    // Slot(asChild)는 단 하나의 자식만 허용하므로 loading 스피너를 사용할 수 없음
+    const actualLoading = asChild ? false : loading;
+
+    if (asChild && loading) {
+      console.warn(
+        'Button: "loading" prop cannot be used with "asChild". ' +
+        'Loading spinner will be hidden, but disabled state remains.'
+      );
+    }
+
     const Comp = asChild ? Slot : 'button';
 
     return (
@@ -91,7 +101,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         {...props}
       >
-        {loading && (
+        {actualLoading && (
           <svg
             className="h-4 w-4 animate-spin"
             xmlns="http://www.w3.org/2000/svg"

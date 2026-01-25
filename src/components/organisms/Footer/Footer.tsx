@@ -14,8 +14,10 @@ export function Footer() {
             to="/"
             className="font-heading text-lg font-semibold text-text-primary"
           >
-            <span className="text-rose">Turtle</span>
-            <span>Love</span>
+            <span>
+              <span className="text-rose">Turtle</span>
+              <span>Love</span>
+            </span>
           </Link>
 
           {/* 설명 */}
