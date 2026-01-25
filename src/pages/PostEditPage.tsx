@@ -25,12 +25,11 @@ export function PostEditPage() {
     );
   }
 
-  // 수정 시에는 필요한 필드만 전달 (categoryId 제외 - 수정 불가)
+  // 수정 시에는 API에서 제공하는 필드만 전달
+  // (visibility_type, target_gender는 API 스펙상 상세 조회 응답에 미포함)
   const defaultValues = {
     title: post.title,
     content: post.content,
-    visibilityType: post.visibility_type,
-    targetGender: post.target_gender,
   };
 
   return (

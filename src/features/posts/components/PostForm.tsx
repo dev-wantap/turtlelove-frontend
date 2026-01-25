@@ -205,11 +205,11 @@ export function PostForm({
               value="ALL"
               className="sr-only"
               {...register('targetGender')}
-              checked={selectedGender === undefined || selectedGender === 'ALL'}
+              checked={selectedGender == null || selectedGender === 'ALL'}
             />
             <div
               className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-rose/50 ${
-                selectedGender === undefined || selectedGender === 'ALL'
+                selectedGender == null || selectedGender === 'ALL'
                   ? 'border-rose bg-rose-light text-rose-dark'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}

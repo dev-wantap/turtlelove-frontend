@@ -25,8 +25,6 @@ export interface PostDetail {
   is_mine: boolean;
   created_at: string;
   comments: Comment[];
-  visibility_type: 'ALL' | 'HIDE_SAME_UNI';
-  target_gender: 'ALL' | 'MALE' | 'FEMALE' | null;
 }
 
 export interface Comment {
