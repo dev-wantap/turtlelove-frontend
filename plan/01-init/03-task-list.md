@@ -49,7 +49,7 @@
 
 - [x] QueryClient 생성 및 설정
 - [x] QueryProvider 컴포넌트 생성
-- [ ] 공통 Query Keys 정의
+- [x] 공통 Query Keys 정의 (`shared/api/queryKeys.ts`)
 
 ### 2.3 Zustand 스토어 생성
 
@@ -64,10 +64,10 @@
 
 ### 2.5 레이아웃 컴포넌트
 
-- [ ] `MainLayout` 템플릿 구현
-- [ ] `AuthLayout` 템플릿 구현
-- [ ] `Header` 컴포넌트 구현
-- [ ] `Footer` 컴포넌트 구현
+- [x] `MainLayout` 템플릿 구현
+- [x] `AuthLayout` 템플릿 구현
+- [x] `Header` 컴포넌트 구현
+- [x] `Footer` 컴포넌트 구현
 
 ---
 
