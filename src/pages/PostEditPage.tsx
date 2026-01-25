@@ -43,6 +43,7 @@ export function PostEditPage() {
         <PostForm
           mode="edit"
           defaultValues={defaultValues}
+          categoryName={post.category}
           onSubmit={updatePost}
           isLoading={isPending}
         />

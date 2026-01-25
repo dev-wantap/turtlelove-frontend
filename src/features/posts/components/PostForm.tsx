@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -21,7 +22,7 @@ const postSchema = z.object({
     .max(5000, '내용은 5000자 이하이어야 합니다'),
   categoryId: z.number({
     message: '카테고리를 선택해주세요',
-  }),
+  }).optional(),
   visibilityType: z.enum(['ALL', 'HIDE_SAME_UNI']),
   targetGender: z.enum(['ALL', 'MALE', 'FEMALE']).optional().nullable(),
 });
@@ -43,12 +44,14 @@ type PostFormProps =
       defaultValues?: Partial<PostFormValues>;
       onSubmit: (data: CreatePostRequest) => void | Promise<void>;
       isLoading?: boolean;
+      categoryName?: never;
     }
   | {
       mode: 'edit';
       defaultValues?: Partial<PostFormValues>;
       onSubmit: (data: UpdatePostRequest) => void | Promise<void>;
       isLoading?: boolean;
+      categoryName?: string;
     };
 
 export function PostForm({
@@ -56,6 +59,7 @@ export function PostForm({
   defaultValues,
   onSubmit,
   isLoading = false,
+  categoryName,
 }: PostFormProps) {
   const {
     register,
@@ -74,28 +78,41 @@ export function PostForm({
     },
   });
 
+  // Track which keys were explicitly provided in defaultValues
+  const explicitKeys = useMemo(
+    () => new Set(Object.keys(defaultValues ?? {})),
+    [defaultValues]
+  );
+
   const selectedGender = watch('targetGender');
   const selectedCategory = watch('categoryId');
   const selectedVisibility = watch('visibilityType');
 
   const onFormSubmit = (data: PostFormValues) => {
-    const targetGender = data.targetGender === 'ALL' || !data.targetGender ? null : data.targetGender;
-
     if (mode === 'edit') {
       const submitData: UpdatePostRequest = {
         title: data.title,
         content: data.content,
-        visibility_type: data.visibilityType,
-        target_gender: targetGender,
       };
+
+      // Only include if explicitly provided in defaultValues
+      if (explicitKeys.has('visibilityType')) {
+        submitData.visibility_type = data.visibilityType;
+      }
+      if (explicitKeys.has('targetGender')) {
+        submitData.target_gender = data.targetGender === 'ALL' || !data.targetGender
+          ? null
+          : data.targetGender;
+      }
+
       onSubmit(submitData);
     } else {
       const submitData: CreatePostRequest = {
         title: data.title,
         content: data.content,
-        category_id: data.categoryId,
+        category_id: data.categoryId ?? 1, // Default to category 1 if not selected
         visibility_type: data.visibilityType,
-        target_gender: targetGender,
+        target_gender: data.targetGender === 'ALL' || !data.targetGender ? null : data.targetGender,
       };
       onSubmit(submitData);
     }
@@ -111,35 +128,47 @@ export function PostForm({
         {...register('title')}
       />
 
-      {/* 카테고리 */}
-      <div>
-        <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
-          카테고리
-        </label>
-        <div className="flex flex-wrap gap-2">
-          {CATEGORIES.map((cat) => (
-            <label key={cat.id} className="cursor-pointer">
-              <input
-                type="radio"
-                value={cat.id}
-                className="sr-only"
-                {...register('categoryId', { valueAsNumber: true })}
-              />
-              <Badge
-                variant={selectedCategory === cat.id ? 'success' : 'default'}
-                className="cursor-pointer transition-colors hover:bg-soft-gray"
-              >
-                #{cat.name}
-              </Badge>
-            </label>
-          ))}
+      {/* 카테고리 - create 모드에서만 편집 가능 */}
+      {mode === 'create' ? (
+        <div>
+          <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
+            카테고리
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {CATEGORIES.map((cat) => (
+              <label key={cat.id} className="cursor-pointer">
+                <input
+                  type="radio"
+                  value={cat.id}
+                  className="sr-only"
+                  {...register('categoryId', { valueAsNumber: true })}
+                />
+                <Badge
+                  variant={selectedCategory === cat.id ? 'success' : 'default'}
+                  className="cursor-pointer transition-colors hover:bg-soft-gray"
+                >
+                  #{cat.name}
+                </Badge>
+              </label>
+            ))}
+          </div>
+          {errors.categoryId && (
+            <p className="mt-2 text-sm font-ui text-red-400">
+              {errors.categoryId.message}
+            </p>
+          )}
         </div>
-        {errors.categoryId && (
-          <p className="mt-2 text-sm font-ui text-red-400">
-            {errors.categoryId.message}
-          </p>
-        )}
-      </div>
+      ) : (
+        /* edit 모드: 현재 카테고리만 표시 (읽기 전용) */
+        categoryName && (
+          <div>
+            <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
+              카테고리 <span className="text-text-muted">(수정 불가)</span>
+            </label>
+            <Badge variant="default">#{categoryName}</Badge>
+          </div>
+        )
+      )}
 
       {/* 내용 */}
       <Textarea
