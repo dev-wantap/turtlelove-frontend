@@ -14,24 +14,17 @@ export function useCreateComment({ postId }: UseCreateCommentOptions) {
   const mutation = useMutation({
     mutationFn: (data: CreateCommentRequest) => commentsApi.create(postId, data),
 
-    onSuccess: (response, variables) => {
-      // 로컬 캐시 업데이트
+    onSuccess: (response) => {
+      // 로컬 캐시 업데이트 - 서버 응답을 그대로 사용
       queryClient.setQueryData(
         ['posts', 'detail', postId],
         (oldData: any) => {
-          if (!oldData) return oldData;
+          if (!oldData || !oldData.comments) return oldData;
           return {
             ...oldData,
             comments: [
               ...oldData.comments,
-              {
-                id: response.id,
-                user_id: 0, // 현재 사용자 ID는 백엔드에서 처리
-                content: variables.content,
-                is_filtered: response.is_filtered,
-                is_mine: true,
-                created_at: new Date().toISOString(),
-              },
+              response,
             ],
           };
         }

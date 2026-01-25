@@ -5,17 +5,19 @@ import { useUIStore } from '@/stores/uiStore';
 
 interface UseUpdateCommentOptions {
   postId: number;
-  commentId: number;
 }
 
-export function useUpdateComment({ postId, commentId }: UseUpdateCommentOptions) {
+export function useUpdateComment({ postId }: UseUpdateCommentOptions) {
   const queryClient = useQueryClient();
   const addToast = useUIStore((state) => state.addToast);
 
   const mutation = useMutation({
-    mutationFn: (data: UpdateCommentRequest) => commentsApi.update(commentId, data),
+    mutationFn: ({ commentId, content }: { commentId: number } & UpdateCommentRequest) =>
+      commentsApi.update(commentId, { content }),
 
-    onSuccess: (response) => {
+    onSuccess: (response, variables) => {
+      const commentId = variables.commentId;
+
       // 로컬 캐시 업데이트
       queryClient.setQueryData(
         ['posts', 'detail', postId],

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Comment } from '@/features/posts/types/posts.types';
 import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
@@ -22,6 +22,14 @@ export function CommentItem({
 }: CommentItemProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [editContent, setEditContent] = useState(comment.content);
+
+  // Sync editContent when comment.content changes from external source
+  // Only sync when not editing to preserve user's current work
+  useEffect(() => {
+    if (!isEditing) {
+      setEditContent(comment.content);
+    }
+  }, [comment.content, isEditing]);
 
   const handleSaveEdit = () => {
     if (editContent.trim() && editContent !== comment.content) {

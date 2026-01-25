@@ -36,8 +36,10 @@ export function Header() {
           to="/"
           className="flex items-center gap-2 font-heading text-xl font-semibold text-text-primary"
         >
-          <span className="text-rose">Turtle</span>
-          <span>Love</span>
+          <span>
+            <span className="text-rose">Turtle</span>
+            <span>Love</span>
+          </span>
         </Link>
 
         {/* 데스크톱 네비게이션 */}

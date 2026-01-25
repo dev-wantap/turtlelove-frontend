@@ -25,11 +25,9 @@ export function CommentSection({
     postId,
   });
 
-  // 댓글 수정 훅 (동적 사용을 위한 state)
-  const [editingCommentId, setEditingCommentId] = useState<number | null>(null);
+  // 댓글 수정 훅
   const { mutate: updateComment } = useUpdateComment({
     postId,
-    commentId: editingCommentId || 0,
   });
 
   // 댓글 삭제 훅
@@ -53,12 +51,14 @@ export function CommentSection({
 
   // 댓글 수정 핸들러
   const handleEdit = (commentId: number, newContent: string) => {
-    setEditingCommentId(commentId);
     updateComment(
-      { content: newContent },
+      {
+        commentId,
+        content: newContent,
+      },
       {
         onSuccess: () => {
-          setEditingCommentId(null); // 성공 시 수정 모드 종료
+          // CommentItem이 자체 editing state를 관리하므로 별도 처리 불필요
         },
       }
     );

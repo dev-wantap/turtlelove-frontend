@@ -12,7 +12,11 @@ export interface UpdateCommentRequest {
 // Response Types
 export interface CreateCommentResponse {
   id: number;
+  user_id: number;
+  content: string;
   is_filtered: boolean;
+  is_mine: boolean;
+  created_at: string;
 }
 
 export interface UpdateCommentResponse {
