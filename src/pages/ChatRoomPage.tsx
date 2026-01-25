@@ -7,7 +7,7 @@ import { Spinner } from '@/components/atoms/Spinner';
 export function ChatRoomPage() {
   const { roomId } = useParams<{ roomId: string }>();
   const { user } = useAuthStore();
-  const { data: rooms, isLoading } = useChatRooms();
+  const { data: rooms, isLoading, isError, refetch } = useChatRooms();
 
   const room = rooms?.find((r) => r.room_id === Number(roomId));
 
@@ -54,7 +54,40 @@ export function ChatRoomPage() {
     );
   }
 
-  // 3. Room not found check
+  // 3. Error state check
+  if (isError) {
+    return (
+      <div className="page-enter min-h-screen bg-gradient-to-br from-cream to-rose-50/20 flex items-center justify-center">
+        <div className="text-center">
+          <svg
+            className="w-16 h-16 mx-auto text-rose-300 mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={1.5}
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <p className="text-text-muted mb-4">채팅방을 불러오지 못했습니다</p>
+          <button
+            onClick={() => refetch()}
+            className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-rose-400 to-rose-500 text-white font-medium shadow-md shadow-rose-300/30 hover:shadow-lg hover:shadow-rose-300/50 transition-all"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            다시 시도
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // 4. Room not found check
   if (!room) {
     return (
       <div className="page-enter min-h-screen bg-gradient-to-br from-cream to-rose-50/20 flex items-center justify-center">

@@ -41,7 +41,7 @@ export function ChatListPage() {
               채팅 목록
             </h1>
           </div>
-          <p className="ml-13 text-sm text-text-muted">
+          <p className="ml-12 text-sm text-text-muted">
             진행 중인 대화 목록입니다
           </p>
         </div>
