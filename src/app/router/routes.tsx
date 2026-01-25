@@ -4,6 +4,8 @@ import {
   Route,
 } from 'react-router-dom';
 
+import { MainLayout } from '@/components/templates/MainLayout';
+import { AuthLayout } from '@/components/templates/AuthLayout';
 import { HomePage } from '@/pages/HomePage';
 import { LoginPage } from '@/pages/LoginPage';
 import { SignupPage } from '@/pages/SignupPage';
@@ -20,24 +22,31 @@ import { ProtectedRoute } from './ProtectedRoute';
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <>
-      {/* Public Routes */}
-      <Route path="/" element={<HomePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-
-      {/* Protected Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route path="/posts" element={<PostListPage />} />
-        <Route path="/posts/new" element={<PostCreatePage />} />
-        <Route path="/posts/:id" element={<PostDetailPage />} />
-        <Route path="/posts/:id/edit" element={<PostEditPage />} />
-        <Route path="/chats" element={<ChatListPage />} />
-        <Route path="/chats/:roomId" element={<ChatRoomPage />} />
-        <Route path="/mypage" element={<MyPage />} />
+      {/* Auth Layout - 로그인/회원가입 */}
+      <Route element={<AuthLayout />}>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
       </Route>
 
-      {/* 404 */}
-      <Route path="*" element={<NotFoundPage />} />
+      {/* Main Layout - 메인 콘텐츠 */}
+      <Route element={<MainLayout />}>
+        {/* Public */}
+        <Route path="/" element={<HomePage />} />
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/posts" element={<PostListPage />} />
+          <Route path="/posts/new" element={<PostCreatePage />} />
+          <Route path="/posts/:id" element={<PostDetailPage />} />
+          <Route path="/posts/:id/edit" element={<PostEditPage />} />
+          <Route path="/chats" element={<ChatListPage />} />
+          <Route path="/chats/:roomId" element={<ChatRoomPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+        </Route>
+
+        {/* 404 */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
     </>
   )
 );
