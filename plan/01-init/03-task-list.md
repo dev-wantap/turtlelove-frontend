@@ -175,25 +175,25 @@
 
 ### 6.1 API 및 타입
 
-- [ ] `features/comments/types/comments.types.ts` 정의
-- [ ] `features/comments/api/commentsApi.ts` 구현
-  - [ ] `createComment` - 작성
-  - [ ] `updateComment` - 수정
-  - [ ] `deleteComment` - 삭제
+- [x] `features/comments/types/comments.types.ts` 정의
+- [x] `features/comments/api/commentsApi.ts` 구현
+  - [x] `createComment` - 작성
+  - [x] `updateComment` - 수정
+  - [x] `deleteComment` - 삭제
 
 ### 6.2 훅 구현
 
-- [ ] `useCreateComment` - 작성 뮤테이션
-- [ ] `useUpdateComment` - 수정 뮤테이션
-- [ ] `useDeleteComment` - 삭제 뮤테이션
+- [x] `useCreateComment` - 작성 뮤테이션
+- [x] `useUpdateComment` - 수정 뮤테이션
+- [x] `useDeleteComment` - 삭제 뮤테이션
 
 ### 6.3 컴포넌트
 
-- [ ] `CommentItem` 컴포넌트 - 개별 댓글
-  - [ ] AI 필터링 표시 (is_filtered)
-  - [ ] 본인 댓글 수정/삭제 버튼
-  - [ ] 채팅 요청 버튼 (글쓴이에게만)
-- [ ] `CommentSection` 컴포넌트 - 댓글 목록 + 입력폼
+- [x] `CommentItem` 컴포넌트 - 개별 댓글
+  - [x] AI 필터링 표시 (is_filtered)
+  - [x] 본인 댓글 수정/삭제 버튼
+  - [x] 채팅 요청 버튼 (글쓴이에게만)
+- [x] `CommentSection` 컴포넌트 - 댓글 목록 + 입력폼
 
 ---
 

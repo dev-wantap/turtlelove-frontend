@@ -7,6 +7,7 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import { useDeletePost } from '../hooks/useDeletePost';
 import type { PostDetail as PostDetailType } from '../types/posts.types';
+import { CommentSection } from '@/features/comments/components';
 
 const orbVariants = ['sunset', 'ocean', 'blossom', 'forest', 'dawn', 'twilight'];
 
@@ -66,6 +67,15 @@ export function PostDetailView({ post }: PostDetailProps) {
           </Button>
         </div>
       )}
+
+      {/* 댓글 섹션 */}
+      <div className="mt-8 border-t border-warm-gray pt-6">
+        <CommentSection
+          postId={post.id}
+          comments={post.comments}
+          isPostAuthor={post.is_mine}
+        />
+      </div>
     </article>
   );
 }
