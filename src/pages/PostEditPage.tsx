@@ -25,10 +25,12 @@ export function PostEditPage() {
     );
   }
 
-  // 수정 시에는 필요한 필드만 전달
+  // 수정 시에는 필요한 필드만 전달 (categoryId 제외 - 수정 불가)
   const defaultValues = {
     title: post.title,
     content: post.content,
+    visibilityType: post.visibility_type,
+    targetGender: post.target_gender,
   };
 
   return (

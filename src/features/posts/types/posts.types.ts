@@ -14,15 +14,6 @@ export interface PostListItem {
 
 export interface PostListResponse {
   content: PostListItem[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-  };
-  totalElements: number;
-  totalPages: number;
-  last: boolean;
-  first: boolean;
-  empty: boolean;
 }
 
 // 게시글 상세
@@ -34,9 +25,8 @@ export interface PostDetail {
   is_mine: boolean;
   created_at: string;
   comments: Comment[];
-  // 추가 필드 (필요시)
-  visibility_type?: 'ALL' | 'HIDE_SAME_UNI';
-  target_gender?: 'ALL' | 'MALE' | 'FEMALE' | null;
+  visibility_type: 'ALL' | 'HIDE_SAME_UNI';
+  target_gender: 'ALL' | 'MALE' | 'FEMALE' | null;
 }
 
 export interface Comment {

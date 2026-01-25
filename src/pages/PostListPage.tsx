@@ -43,7 +43,7 @@ export function PostListPage() {
         <PostList
           posts={data?.content ?? []}
           isLoading={isLoading}
-          isEmpty={!isLoading && !data?.content.length}
+          isEmpty={!isLoading && !data?.content?.length}
         />
       </div>
     </div>

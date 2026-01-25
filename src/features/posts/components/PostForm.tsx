@@ -7,8 +7,6 @@ import { Button } from '@/components/atoms/Button';
 import { Badge } from '@/components/atoms/Badge';
 import type { CreatePostRequest, UpdatePostRequest } from '../types/posts.types';
 
-// mutate 함수를 받을 수 있도록 타입 정의
-type SubmitFunction = (data: CreatePostRequest | UpdatePostRequest) => void | Promise<void>;
 
 const postSchema = z.object({
   title: z
@@ -39,12 +37,19 @@ const CATEGORIES = [
   { id: 6, name: '자유' },
 ];
 
-interface PostFormProps {
-  mode: 'create' | 'edit';
-  defaultValues?: Partial<PostFormValues>;
-  onSubmit: SubmitFunction;
-  isLoading?: boolean;
-}
+type PostFormProps =
+  | {
+      mode: 'create';
+      defaultValues?: Partial<PostFormValues>;
+      onSubmit: (data: CreatePostRequest) => void | Promise<void>;
+      isLoading?: boolean;
+    }
+  | {
+      mode: 'edit';
+      defaultValues?: Partial<PostFormValues>;
+      onSubmit: (data: UpdatePostRequest) => void | Promise<void>;
+      isLoading?: boolean;
+    };
 
 export function PostForm({
   mode,
@@ -71,16 +76,29 @@ export function PostForm({
 
   const selectedGender = watch('targetGender');
   const selectedCategory = watch('categoryId');
+  const selectedVisibility = watch('visibilityType');
 
   const onFormSubmit = (data: PostFormValues) => {
-    const submitData: CreatePostRequest = {
-      title: data.title,
-      content: data.content,
-      category_id: data.categoryId,
-      visibility_type: data.visibilityType,
-      target_gender: data.targetGender === 'ALL' || !data.targetGender ? null : data.targetGender,
-    };
-    onSubmit(submitData);
+    const targetGender = data.targetGender === 'ALL' || !data.targetGender ? null : data.targetGender;
+
+    if (mode === 'edit') {
+      const submitData: UpdatePostRequest = {
+        title: data.title,
+        content: data.content,
+        visibility_type: data.visibilityType,
+        target_gender: targetGender,
+      };
+      onSubmit(submitData);
+    } else {
+      const submitData: CreatePostRequest = {
+        title: data.title,
+        content: data.content,
+        category_id: data.categoryId,
+        visibility_type: data.visibilityType,
+        target_gender: targetGender,
+      };
+      onSubmit(submitData);
+    }
   };
 
   return (
@@ -145,7 +163,13 @@ export function PostForm({
               className="sr-only"
               {...register('visibilityType')}
             />
-            <div className="rounded-lg border-2 border-warm-gray bg-warm-white px-4 py-3 text-center font-ui text-text-muted transition-all cursor-pointer peer-checked:border-rose peer-checked:bg-rose-light peer-checked:text-rose-dark hover:border-rose/50">
+            <div
+              className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-rose/50 ${
+                selectedVisibility === 'ALL'
+                  ? 'border-rose bg-rose-light text-rose-dark'
+                  : 'border-warm-gray bg-warm-white text-text-muted'
+              }`}
+            >
               전체 공개
             </div>
           </label>
@@ -156,7 +180,13 @@ export function PostForm({
               className="sr-only"
               {...register('visibilityType')}
             />
-            <div className="rounded-lg border-2 border-warm-gray bg-warm-white px-4 py-3 text-center font-ui text-text-muted transition-all cursor-pointer peer-checked:border-sage peer-checked:bg-sage-light peer-checked:text-sage-dark hover:border-sage/50">
+            <div
+              className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-sage/50 ${
+                selectedVisibility === 'HIDE_SAME_UNI'
+                  ? 'border-sage bg-sage-light text-sage-dark'
+                  : 'border-warm-gray bg-warm-white text-text-muted'
+              }`}
+            >
               같은 학교 숨기기
             </div>
           </label>
@@ -177,7 +207,13 @@ export function PostForm({
               {...register('targetGender')}
               checked={selectedGender === undefined || selectedGender === 'ALL'}
             />
-            <div className="rounded-lg border-2 border-warm-gray bg-warm-white px-4 py-3 text-center font-ui text-text-muted transition-all cursor-pointer peer-checked:border-rose peer-checked:bg-rose-light peer-checked:text-rose-dark hover:border-rose/50">
+            <div
+              className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-rose/50 ${
+                selectedGender === undefined || selectedGender === 'ALL'
+                  ? 'border-rose bg-rose-light text-rose-dark'
+                  : 'border-warm-gray bg-warm-white text-text-muted'
+              }`}
+            >
               상관없음
             </div>
           </label>
@@ -188,7 +224,13 @@ export function PostForm({
               className="sr-only"
               {...register('targetGender')}
             />
-            <div className="rounded-lg border-2 border-warm-gray bg-warm-white px-4 py-3 text-center font-ui text-text-muted transition-all cursor-pointer peer-checked:border-sky peer-checked:bg-sky/30 peer-checked:text-sky/80 hover:border-sky/50">
+            <div
+              className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-sky/50 ${
+                selectedGender === 'MALE'
+                  ? 'border-sky bg-sky/30 text-sky'
+                  : 'border-warm-gray bg-warm-white text-text-muted'
+              }`}
+            >
               남성만
             </div>
           </label>
@@ -199,7 +241,13 @@ export function PostForm({
               className="sr-only"
               {...register('targetGender')}
             />
-            <div className="rounded-lg border-2 border-warm-gray bg-warm-white px-4 py-3 text-center font-ui text-text-muted transition-all cursor-pointer peer-checked:border-peach peer-checked:bg-peach/50 peer-checked:text-orange-800 hover:border-peach/50">
+            <div
+              className={`rounded-lg border-2 px-4 py-3 text-center font-ui transition-all cursor-pointer hover:border-peach/50 ${
+                selectedGender === 'FEMALE'
+                  ? 'border-peach bg-peach/50 text-orange-800'
+                  : 'border-warm-gray bg-warm-white text-text-muted'
+              }`}
+            >
               여성만
             </div>
           </label>

@@ -41,6 +41,7 @@ export function PostDetailView({ post }: PostDetailProps) {
             <p className="mt-1 font-ui text-sm text-text-muted">{createdAt}</p>
           </div>
         </div>
+        {/* TODO: Replace hardcoded level with post.warmth when PostDetail.warmth is available from API */}
         <WarmthMeter level={50} size="sm" showLabel />
       </div>
 

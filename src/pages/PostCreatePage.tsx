@@ -20,7 +20,7 @@ export function PostCreatePage() {
             따뜻한 마음으로 답변해드릴게요
           </p>
         </div>
-        <PostForm mode="create" onSubmit={handleSubmit as any} isLoading={isPending} />
+        <PostForm mode="create" onSubmit={handleSubmit} isLoading={isPending} />
       </div>
     </div>
   );
