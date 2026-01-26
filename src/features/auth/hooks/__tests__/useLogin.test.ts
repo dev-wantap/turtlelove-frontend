@@ -16,7 +16,9 @@ vi.mock('react-router-dom', () => ({
 
 describe('useLogin 훅', () => {
   const mockSetAuth = vi.fn()
+  const mockSetUser = vi.fn()
   const mockSetToken = vi.fn()
+  const mockLogout = vi.fn()
   const mockCredentials = {
     email: 'test@university.ac.kr',
     password: 'password123!',
@@ -28,8 +30,13 @@ describe('useLogin 훅', () => {
     // Mock useAuthStore
     vi.mocked(useAuthStore).mockImplementation((selector) => {
       const state = {
+        user: null,
+        accessToken: null,
+        isAuthenticated: false,
         setAuth: mockSetAuth,
+        setUser: mockSetUser,
         setToken: mockSetToken,
+        logout: mockLogout,
       }
       // Selector pattern support
       return selector ? selector(state) : state

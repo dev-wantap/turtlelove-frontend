@@ -273,9 +273,9 @@
 
 ### 9.2 성능 최적화
 
-- [ ] React.lazy를 활용한 코드 스플리팅
-- [ ] 이미지 Lazy loading
-- [ ] 번들 사이즈 분석 및 최적화
+- [x] React.lazy를 활용한 코드 스플리팅 (routes.tsx, HomePage 제외)
+- [ ] 이미지 Lazy loading (현재 CSS GradientOrb만 사용 중으로 불필요)
+- [x] 번들 사이즈 분석 및 최적화 (rollup-plugin-visualizer, vendor chunks)
 - [ ] Lighthouse 성능 점검
 
 ### 9.3 접근성

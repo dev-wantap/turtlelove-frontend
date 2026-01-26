@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { renderHook, waitFor } from '@testing-library/react'
+import { renderHook } from '@testing-library/react'
 import { useAuth } from '../useAuth'
 import { useAuthStore } from '@/stores'
 import { createWrapper } from '@/test/test-utils'
@@ -11,6 +11,8 @@ vi.mock('@/stores', () => ({
 
 describe('useAuth 훅', () => {
   const mockSetAuth = vi.fn()
+  const mockSetUser = vi.fn()
+  const mockSetToken = vi.fn()
   const mockLogout = vi.fn()
   const mockUser = {
     id: 1,
@@ -29,6 +31,8 @@ describe('useAuth 훅', () => {
         accessToken: 'test-token',
         isAuthenticated: true,
         setAuth: mockSetAuth,
+        setUser: mockSetUser,
+        setToken: mockSetToken,
         logout: mockLogout,
       }
       return selector ? selector(state) : state
@@ -52,6 +56,8 @@ describe('useAuth 훅', () => {
           accessToken: null,
           isAuthenticated: false,
           setAuth: mockSetAuth,
+          setUser: mockSetUser,
+          setToken: mockSetToken,
           logout: mockLogout,
         }
         return selector ? selector(state) : state
@@ -104,6 +110,8 @@ describe('useAuth 훅', () => {
           accessToken: null,
           isAuthenticated: false,
           setAuth: mockSetAuth,
+          setUser: mockSetUser,
+          setToken: mockSetToken,
           logout: mockLogout,
         }
         return selector ? selector(state) : state
@@ -126,6 +134,8 @@ describe('useAuth 훅', () => {
           accessToken: 'token',
           isAuthenticated: true,
           setAuth: mockSetAuth,
+          setUser: mockSetUser,
+          setToken: mockSetToken,
           logout: mockLogout,
         }
         return selector ? selector(state) : state
@@ -144,6 +154,8 @@ describe('useAuth 훅', () => {
           accessToken: null,
           isAuthenticated: false,
           setAuth: mockSetAuth,
+          setUser: mockSetUser,
+          setToken: mockSetToken,
           logout: mockLogout,
         }
         return selector ? selector(state) : state
