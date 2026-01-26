@@ -84,18 +84,20 @@ export function Modal({
         >
           {title && (
             <DialogHeader>
-              <DialogTitle asChild>
-                <h2 className="font-heading text-xl font-semibold text-text-primary">
-                  {title}
-                </h2>
-              </DialogTitle>
-              {description && (
-                <DialogDescription asChild>
-                  <p className="font-body text-sm text-text-secondary mt-1">
-                    {description}
-                  </p>
-                </DialogDescription>
-              )}
+              <div className="flex flex-col">
+                <DialogTitle asChild>
+                  <h2 className="font-heading text-xl font-semibold text-text-primary">
+                    {title}
+                  </h2>
+                </DialogTitle>
+                {description && (
+                  <DialogDescription asChild>
+                    <p className="font-body text-sm text-text-secondary mt-1">
+                      {description}
+                    </p>
+                  </DialogDescription>
+                )}
+              </div>
             </DialogHeader>
           )}
           {!title && description && (
