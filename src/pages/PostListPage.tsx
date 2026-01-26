@@ -2,15 +2,36 @@ import { usePosts } from '@/features/posts/hooks';
 import { PostList } from '@/features/posts/components';
 import { Button } from '@/components/atoms/Button';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+const CATEGORIES = ['전체', '연애', '이별', '썸', '짝사랑', '고민', '자유'];
 
 export function PostListPage() {
   const { data, isLoading } = usePosts();
+  const [selectedCategory, setSelectedCategory] = useState('전체');
+
+  // 화살표 키로 탭 이동 지원
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const currentIndex = CATEGORIES.indexOf(selectedCategory);
+
+      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const direction = e.key === 'ArrowRight' ? 1 : -1;
+        const newIndex = (currentIndex + direction + CATEGORIES.length) % CATEGORIES.length;
+        setSelectedCategory(CATEGORIES[newIndex]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedCategory]);
 
   return (
-    <div className="page-enter min-h-screen bg-cream">
+    <main className="page-enter min-h-screen bg-cream">
       <div className="container mx-auto max-w-2xl px-4 py-8">
         {/* 헤더 */}
-        <div className="mb-6 flex items-center justify-between">
+        <header className="mb-6 flex items-center justify-between">
           <h1 className="font-heading text-2xl font-semibold text-text-primary">
             상담 게시글
           </h1>
@@ -21,31 +42,51 @@ export function PostListPage() {
           >
             <Link to="/posts/new">글쓰기</Link>
           </Button>
-        </div>
+        </header>
 
-        {/* 카테고리 탭 (TODO) */}
-        <div className="mb-6 flex gap-2 overflow-x-auto pb-2">
-          {['전체', '연애', '이별', '썸', '짝사랑', '고민', '자유'].map((cat) => (
-            <button
-              key={cat}
-              className={`px-4 py-2 rounded-full font-ui text-sm whitespace-nowrap transition-colors ${
-                cat === '전체'
-                  ? 'bg-rose text-white'
-                  : 'bg-warm-white text-text-muted hover:bg-soft-gray'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        {/* 카테고리 탭 - ARIA tab 패턴 */}
+        <nav aria-label="카테고리 필터" className="mb-6">
+          <div
+            className="flex gap-2 overflow-x-auto pb-2"
+            role="tablist"
+            aria-label="카테고리 선택"
+          >
+            {CATEGORIES.map((cat, index) => (
+              <button
+                key={cat}
+                role="tab"
+                aria-selected={cat === selectedCategory}
+                aria-controls="posts-panel"
+                id={`tab-${index}`}
+                tabIndex={cat === selectedCategory ? 0 : -1}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-4 py-2 rounded-full font-ui text-sm whitespace-nowrap transition-colors ${
+                  cat === selectedCategory
+                    ? 'bg-rose text-white'
+                    : 'bg-warm-white text-text-muted hover:bg-soft-gray'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </nav>
 
         {/* 게시글 목록 */}
-        <PostList
-          posts={data?.content ?? []}
-          isLoading={isLoading}
-          isEmpty={!isLoading && !data?.content?.length}
-        />
+        <section
+          aria-labelledby="posts-heading"
+          id="posts-panel"
+          role="tabpanel"
+          aria-labelledby={`tab-${CATEGORIES.indexOf(selectedCategory)}`}
+        >
+          <h2 id="posts-heading" className="sr-only">게시글 목록</h2>
+          <PostList
+            posts={data?.content ?? []}
+            isLoading={isLoading}
+            isEmpty={!isLoading && !data?.content?.length}
+          />
+        </section>
       </div>
-    </div>
+    </main>
   );
 }

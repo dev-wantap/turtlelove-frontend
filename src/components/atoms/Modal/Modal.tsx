@@ -4,6 +4,8 @@ import {
   Portal as DialogPortal,
   Root as DialogRoot,
   Trigger as DialogTrigger,
+  Title as DialogTitle,
+  Description as DialogDescription,
 } from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { type ReactNode } from 'react';
@@ -28,11 +30,18 @@ export function Modal({
   ...props
 }: ModalProps) {
   return (
-    <DialogRoot open={open} onOpenChange={onOpenChange} {...props}>
+    <DialogRoot
+      open={open}
+      onOpenChange={onOpenChange}
+      modal={true}
+      {...props}
+    >
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogPortal>
-        <DialogOverlay />
+        <DialogOverlay onClick={() => onOpenChange?.(false)} />
         <DialogContent
+          onPointerDownOutside={() => onOpenChange?.(false)}
+          onEscapeKeyDown={() => onOpenChange?.(false)}
           className={cn(
             'fixed',
             'left-1/2',
@@ -56,9 +65,17 @@ export function Modal({
         >
           {title && (
             <DialogHeader>
-              <DialogTitle>{title}</DialogTitle>
+              <DialogTitle asChild>
+                <h2 className="font-heading text-xl font-semibold text-text-primary">
+                  {title}
+                </h2>
+              </DialogTitle>
               {description && (
-                <DialogDescription>{description}</DialogDescription>
+                <DialogDescription asChild>
+                  <p className="font-body text-sm text-text-secondary mt-1">
+                    {description}
+                  </p>
+                </DialogDescription>
               )}
             </DialogHeader>
           )}
@@ -96,22 +113,6 @@ function DialogHeader({ children }: { children: ReactNode }) {
   );
 }
 
-function DialogTitle({ children }: { children: ReactNode }) {
-  return (
-    <div className="font-heading text-xl font-semibold text-text-primary">
-      {children}
-    </div>
-  );
-}
-
-function DialogDescription({ children }: { children: ReactNode }) {
-  return (
-    <p className="font-body text-sm text-text-secondary mt-1">
-      {children}
-    </p>
-  );
-}
-
 function DialogClose() {
   return (
     <button
@@ -127,14 +128,13 @@ function DialogClose() {
         'hover:bg-soft-gray',
         'hover:text-text-primary'
       )}
+      aria-label="대화 상자 닫기"
     >
-      <X className="h-5 w-5" />
+      <X className="h-5 w-5" aria-hidden="true" />
     </button>
   );
 }
 
 // Composition API
 Modal.Header = DialogHeader;
-Modal.Title = DialogTitle;
-Modal.Description = DialogDescription;
 Modal.Close = DialogClose;

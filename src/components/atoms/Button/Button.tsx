@@ -7,6 +7,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   asChild?: boolean;
+  /** 명시적인 ARIA 레이블 (아이콘만 있는 버튼용) */
+  ariaLabel?: string;
+  /** 추가 설명을 위한 ARIA describedby 참조 ID */
+  ariaDescription?: string;
 }
 
 const variantStyles = {
@@ -61,6 +65,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled,
       asChild = false,
+      ariaLabel,
+      ariaDescription,
       children,
       ...props
     },
@@ -112,6 +118,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={buttonClassName}
         disabled={disabled || loading}
+        aria-busy={loading}
+        aria-label={ariaLabel || (loading ? '로딩 중' : undefined)}
+        aria-describedby={ariaDescription}
         {...props}
       >
         {loading && (
@@ -120,6 +129,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
           >
             <circle
               className="opacity-25"
@@ -136,6 +147,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             />
           </svg>
         )}
+        {/* 로딩 상태일 때 스크린 리더용 텍스트 추가 */}
+        {loading && <span className="sr-only">로딩 중...</span>}
         {children}
       </button>
     );

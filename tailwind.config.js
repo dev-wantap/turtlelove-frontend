@@ -10,7 +10,7 @@ export default {
         'warm-gray': '#E8E4DF',
         'text-primary': '#3D3A36',
         'text-secondary': '#6B6560',
-        'text-muted': '#9A9590',
+        'text-muted': '#7A7570',
         rose: {
           light: '#F7E8E7',
           DEFAULT: '#E5B8B7',

@@ -46,6 +46,31 @@
     @apply outline-2 outline-offset-2 outline-rose;
     outline-radius: 12px;
   }
+
+  /* 링크 전용 포커스 스타일 */
+  a:focus-visible {
+    outline-radius: 8px;
+    outline-offset: 4px;
+  }
+
+  /* 버튼 전용 포커스 스타일 */
+  button:focus-visible,
+  [role="button"]:focus-visible {
+    outline-offset: 2px;
+  }
+
+  /* 입력 요소 포커스 스타일 */
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: none;
+    @apply ring-2 ring-rose/20 ring-offset-2;
+  }
+
+  /* focus 제거 (마우스 클릭 시) */
+  *:focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 @layer components {
@@ -57,6 +82,19 @@
   /* Touch target */
   .touch-target {
     @apply min-h-[44px] min-w-[44px];
+  }
+
+  /* Screen reader only */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
   }
 }
 
