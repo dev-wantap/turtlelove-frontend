@@ -130,11 +130,11 @@ export function PostForm({
 
       {/* 카테고리 - create 모드에서만 편집 가능 */}
       {mode === 'create' ? (
-        <div>
-          <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
+        <fieldset>
+          <legend className="mb-3 block text-sm font-medium font-ui text-text-primary">
             카테고리
-          </label>
-          <div className="flex flex-wrap gap-2">
+          </legend>
+          <div className="flex flex-wrap gap-2" role="group" aria-label="카테고리 선택">
             {CATEGORIES.map((cat) => (
               <label key={cat.id} className="cursor-pointer">
                 <input
@@ -153,11 +153,11 @@ export function PostForm({
             ))}
           </div>
           {errors.categoryId && (
-            <p className="mt-2 text-sm font-ui text-red-400">
+            <p className="mt-2 text-sm font-ui text-red-400" role="alert">
               {errors.categoryId.message}
             </p>
           )}
-        </div>
+        </fieldset>
       ) : (
         /* edit 모드: 현재 카테고리만 표시 (읽기 전용) */
         categoryName && (
@@ -180,11 +180,11 @@ export function PostForm({
       />
 
       {/* 공개 범위 */}
-      <div>
-        <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
+      <fieldset>
+        <legend className="mb-3 block text-sm font-medium font-ui text-text-primary">
           공개 범위
-        </label>
-        <div className="flex gap-3">
+        </legend>
+        <div className="flex gap-3" role="group" aria-label="공개 범위 선택">
           <label className="flex-1">
             <input
               type="radio"
@@ -198,6 +198,7 @@ export function PostForm({
                   ? 'border-rose bg-rose-light text-rose-dark'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}
+              role="presentation"
             >
               전체 공개
             </div>
@@ -215,19 +216,20 @@ export function PostForm({
                   ? 'border-sage bg-sage-light text-sage-dark'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}
+              role="presentation"
             >
               같은 학교 숨기기
             </div>
           </label>
         </div>
-      </div>
+      </fieldset>
 
       {/* 성별 필터 (optional) */}
-      <div>
-        <label className="mb-3 block text-sm font-medium font-ui text-text-primary">
+      <fieldset>
+        <legend className="mb-3 block text-sm font-medium font-ui text-text-primary">
           상담 받을 분 (선택사항)
-        </label>
-        <div className="flex gap-3">
+        </legend>
+        <div className="flex gap-3" role="group" aria-label="성별 필터 선택">
           <label className="flex-1">
             <input
               type="radio"
@@ -242,6 +244,7 @@ export function PostForm({
                   ? 'border-rose bg-rose-light text-rose-dark'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}
+              role="presentation"
             >
               상관없음
             </div>
@@ -259,6 +262,7 @@ export function PostForm({
                   ? 'border-sky bg-sky/30 text-sky'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}
+              role="presentation"
             >
               남성만
             </div>
@@ -276,12 +280,13 @@ export function PostForm({
                   ? 'border-peach bg-peach/50 text-orange-800'
                   : 'border-warm-gray bg-warm-white text-text-muted'
               }`}
+              role="presentation"
             >
               여성만
             </div>
           </label>
         </div>
-      </div>
+      </fieldset>
 
       {/* 버튼 */}
       <div className="flex gap-3">

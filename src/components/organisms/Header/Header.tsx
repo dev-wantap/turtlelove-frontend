@@ -43,7 +43,7 @@ export function Header() {
         </Link>
 
         {/* 데스크톱 네비게이션 */}
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav aria-label="메인 네비게이션" className="hidden items-center gap-1 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.path}
@@ -54,6 +54,7 @@ export function Header() {
                   ? 'bg-rose-light text-rose-dark'
                   : 'text-text-secondary hover:bg-soft-gray hover:text-text-primary'
               )}
+              aria-current={isActive(item.path) ? 'page' : undefined}
             >
               {item.label}
             </Link>
@@ -111,7 +112,7 @@ export function Header() {
       {/* 모바일 메뉴 */}
       {isMobileMenuOpen && (
         <div className="border-t border-warm-gray/50 bg-cream md:hidden">
-          <nav className="mx-auto max-w-3xl space-y-1 px-4 py-4">
+          <nav aria-label="모바일 메뉴" className="mx-auto max-w-3xl space-y-1 px-4 py-4">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -123,6 +124,7 @@ export function Header() {
                     ? 'bg-rose-light text-rose-dark'
                     : 'text-text-secondary hover:bg-soft-gray'
                 )}
+                aria-current={isActive(item.path) ? 'page' : undefined}
               >
                 {item.label}
               </Link>

@@ -280,9 +280,17 @@
 
 ### 9.3 접근성
 
-- [ ] ARIA 레이블 점검
-- [ ] 키보드 네비게이션 점검
-- [ ] 색상 대비 점검
+- [x] ARIA 레이블 점검
+  - [x] Button: ariaLabel, aria-busy 추가
+  - [x] Modal: aria-label, aria-describedby 추가
+  - [x] Header: aria-current 추가
+  - [x] PostForm: fieldset/legend 추가
+- [x] 키보드 네비게이션 점검
+  - [x] Modal: 포커스 트랩, ESC 키 지원
+  - [x] PostListPage: 화살표 키로 탭 이동
+  - [x] focus-visible 스타일 개선
+- [x] 색상 대비 점검
+  - [x] text-muted: #9A9590 → #7A7570 (WCAG AA 통과)
 
 ---
 

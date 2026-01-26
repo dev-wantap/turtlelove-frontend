@@ -1,5 +1,5 @@
 import { Slot } from '@radix-ui/react-slot';
-import { forwardRef, type ButtonHTMLAttributes } from 'react';
+import { forwardRef, useId, type ButtonHTMLAttributes } from 'react';
 import { cn } from '@/shared/utils/cn';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -7,6 +7,10 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   asChild?: boolean;
+  /** 명시적인 ARIA 레이블 (아이콘만 있는 버튼용) */
+  ariaLabel?: string;
+  /** 추가 설명 텍스트 (sr-only로 렌더링되어 스크린 리더에만 제공) */
+  ariaDescription?: string;
 }
 
 const variantStyles = {
@@ -61,16 +65,30 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       loading = false,
       disabled,
       asChild = false,
+      ariaLabel,
+      ariaDescription,
       children,
       ...props
     },
     ref
   ) => {
+    // ariaDescription을 위한 고유 ID 생성
+    const descriptionId = useId();
+    const ariaDescriptionId = ariaDescription ? descriptionId : undefined;
+
     // Slot(asChild)는 단 하나의 자식만 허용하므로 loading 스피너를 사용할 수 없음
     if (asChild && loading) {
       console.warn(
         'Button: "loading" prop cannot be used with "asChild". ' +
         'Loading spinner will be hidden, but disabled state remains.'
+      );
+    }
+
+    // asChild일 때는 sr-only 요소를 추가할 수 없음
+    if (asChild && ariaDescription) {
+      console.warn(
+        'Button: "ariaDescription" prop cannot be used with "asChild". ' +
+        'Description will not be rendered.'
       );
     }
 
@@ -112,14 +130,24 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         className={buttonClassName}
         disabled={disabled || loading}
+        aria-busy={loading}
+        aria-label={ariaLabel || (loading ? '로딩 중' : undefined)}
+        aria-describedby={ariaDescriptionId}
         {...props}
       >
+        {ariaDescription && (
+          <span id={descriptionId} className="sr-only">
+            {ariaDescription}
+          </span>
+        )}
         {loading && (
           <svg
             className="h-4 w-4 animate-spin"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
+            role="img"
+            aria-hidden="true"
           >
             <circle
               className="opacity-25"
@@ -136,6 +164,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             />
           </svg>
         )}
+        {/* 로딩 상태일 때 스크린 리더용 텍스트 추가 */}
+        {loading && <span className="sr-only">로딩 중...</span>}
         {children}
       </button>
     );
