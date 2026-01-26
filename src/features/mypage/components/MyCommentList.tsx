@@ -68,7 +68,7 @@ export function MyCommentList({ comments, isLoading, className }: MyCommentListP
               content: comment.content,
               created_at: comment.created_at,
               user_id: 0, // 마이페이지에서는 불필요
-              is_mine: true,
+              is_mine: false,
               is_filtered: false, // API 응답에 없음
             }}
             isPostAuthor={false}
