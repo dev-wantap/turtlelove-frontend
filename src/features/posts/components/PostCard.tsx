@@ -5,6 +5,7 @@ import { GradientOrb } from '@/components/atoms/GradientOrb';
 import { Badge } from '@/components/atoms/Badge';
 import { WarmthMeter } from '@/components/atoms/WarmthMeter';
 import { cn } from '@/shared/utils/cn';
+import { usePrefetchPage } from '@/shared/hooks/usePrefetchPage';
 import type { PostListItem } from '../types/posts.types';
 
 interface PostCardProps {
@@ -24,6 +25,8 @@ export function PostCard({
   commentCount = 0,
   className,
 }: PostCardProps) {
+  const prefetchPage = usePrefetchPage();
+
   // 랜덤 오브 variant (게시글 ID 기반 고정)
   const orbVariant = orbVariants[post.id % orbVariants.length] as 'sunset' | 'ocean' | 'blossom' | 'forest' | 'dawn' | 'twilight';
 
@@ -32,9 +35,14 @@ export function PostCard({
     locale: ko,
   });
 
+  const handleMouseEnter = () => {
+    prefetchPage(() => import('@/pages/PostDetailPage'));
+  };
+
   return (
     <Link
       to={`/posts/${post.id}`}
+      onMouseEnter={handleMouseEnter}
       className={cn(
         'block',
         'group',
