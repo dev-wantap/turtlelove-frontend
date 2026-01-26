@@ -7,6 +7,7 @@ import {
   Title as DialogTitle,
   Description as DialogDescription,
   Close as DialogClosePrimitive,
+  Overlay as DialogOverlayPrimitive,
 } from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { type ReactNode } from 'react';
@@ -24,8 +25,8 @@ type BaseModalProps = {
 // Discriminated union: title 또는 ariaLabel 중 하나는 필수
 // WCAG 2.1 SC 4.1.2 준수를 위해 모달에 접근성 이름이 항상 있어야 함
 export type ModalProps = BaseModalProps & Omit<DialogProps, 'title'> & (
-  | { title: string; ariaLabel?: never } // title 사용 시 ariaLabel 불가
-  | { title?: never; ariaLabel: string } // ariaLabel 사용 시 title 불가
+  | { title: string; description?: string; ariaLabel?: never } // title 사용 시 ariaLabel 불가
+  | { title?: never; description?: string; ariaLabel: string } // ariaLabel 사용 시 title 불가
 );
 
 export function Modal({
@@ -97,6 +98,11 @@ export function Modal({
               )}
             </DialogHeader>
           )}
+          {!title && description && (
+            <DialogDescription asChild>
+              <p className="sr-only">{description}</p>
+            </DialogDescription>
+          )}
           {children}
           <DialogClose />
         </DialogContent>
@@ -107,7 +113,7 @@ export function Modal({
 
 function DialogOverlay() {
   return (
-    <div
+    <DialogOverlayPrimitive
       className={cn(
         'fixed',
         'inset-0',
