@@ -3,7 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, type ReactNode } from 'react';
 
 import { MainLayout } from '@/components/templates/MainLayout';
 import { AuthLayout } from '@/components/templates/AuthLayout';
@@ -39,7 +39,7 @@ function PageLoader() {
 }
 
 // Suspense wrapper
-function SuspenseWrapper({ children }: { children: React.ReactNode }) {
+function SuspenseWrapper({ children }: { children: ReactNode }) {
   return <Suspense fallback={<PageLoader />}>{children}</Suspense>;
 }
 
