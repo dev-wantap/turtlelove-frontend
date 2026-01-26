@@ -18,6 +18,8 @@ export interface ModalProps extends DialogProps {
   trigger?: ReactNode;
   title?: string;
   description?: string;
+  /** 명시적인 ARIA 레이블 (title이 없을 때 모달의 접근성 이름으로 사용) */
+  ariaLabel?: string;
   children: ReactNode;
 }
 
@@ -27,6 +29,7 @@ export function Modal({
   trigger,
   title,
   description,
+  ariaLabel,
   children,
   ...props
 }: ModalProps) {
@@ -41,6 +44,7 @@ export function Modal({
       <DialogPortal>
         <DialogOverlay />
         <DialogContent
+          aria-label={!title ? ariaLabel : undefined}
           className={cn(
             'fixed',
             'left-1/2',

@@ -175,4 +175,38 @@ describe('Modal 접근성', () => {
       expect(dialog).not.toBeInTheDocument();
     });
   });
+
+  describe('ariaLabel prop', () => {
+    it('title이 없고 ariaLabel이 있으면 aria-label이 설정되어야 함', () => {
+      render(
+        <Modal open ariaLabel="접근성 레이블">
+          <p>내용</p>
+        </Modal>
+      );
+      const dialog = screen.getByRole('dialog', { name: '접근성 레이블' });
+      expect(dialog).toBeInTheDocument();
+    });
+
+    it('title과 ariaLabel이 둘 다 있으면 title이 우선되어야 함', () => {
+      render(
+        <Modal open title="명시적 제목" ariaLabel="대체 레이블">
+          <p>내용</p>
+        </Modal>
+      );
+      const dialog = screen.getByRole('dialog', { name: '명시적 제목' });
+      expect(dialog).toBeInTheDocument();
+      expect(dialog).not.toHaveAttribute('aria-label');
+    });
+
+    it('title도 ariaLabel도 없으면 접근성 이름이 없어야 함', () => {
+      render(
+        <Modal open>
+          <p>내용</p>
+        </Modal>
+      );
+      const dialog = screen.getByRole('dialog');
+      expect(dialog).toBeInTheDocument();
+      expect(screen.queryByRole('dialog', { name: /./ })).not.toBeInTheDocument();
+    });
+  });
 });
