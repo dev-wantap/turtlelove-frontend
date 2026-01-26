@@ -38,10 +38,8 @@ export function Modal({
     >
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogPortal>
-        <DialogOverlay onClick={() => onOpenChange?.(false)} />
+        <DialogOverlay />
         <DialogContent
-          onPointerDownOutside={() => onOpenChange?.(false)}
-          onEscapeKeyDown={() => onOpenChange?.(false)}
           className={cn(
             'fixed',
             'left-1/2',

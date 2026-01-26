@@ -2,7 +2,7 @@ import { usePosts } from '@/features/posts/hooks';
 import { PostList } from '@/features/posts/components';
 import { Button } from '@/components/atoms/Button';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, type KeyboardEvent } from 'react';
 
 const CATEGORIES = ['전체', '연애', '이별', '썸', '짝사랑', '고민', '자유'];
 
@@ -10,22 +10,16 @@ export function PostListPage() {
   const { data, isLoading } = usePosts();
   const [selectedCategory, setSelectedCategory] = useState('전체');
 
-  // 화살표 키로 탭 이동 지원
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      const currentIndex = CATEGORIES.indexOf(selectedCategory);
-
-      if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-        e.preventDefault();
-        const direction = e.key === 'ArrowRight' ? 1 : -1;
-        const newIndex = (currentIndex + direction + CATEGORIES.length) % CATEGORIES.length;
-        setSelectedCategory(CATEGORIES[newIndex]);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedCategory]);
+  const handleTabKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    const currentIndex = CATEGORIES.indexOf(selectedCategory);
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const direction = e.key === 'ArrowRight' ? 1 : -1;
+      const newIndex =
+        (currentIndex + direction + CATEGORIES.length) % CATEGORIES.length;
+      setSelectedCategory(CATEGORIES[newIndex]);
+    }
+  };
 
   return (
     <main className="page-enter min-h-screen bg-cream">
@@ -50,6 +44,7 @@ export function PostListPage() {
             className="flex gap-2 overflow-x-auto pb-2"
             role="tablist"
             aria-label="카테고리 선택"
+            onKeyDown={handleTabKeyDown}
           >
             {CATEGORIES.map((cat, index) => (
               <button
@@ -74,10 +69,9 @@ export function PostListPage() {
 
         {/* 게시글 목록 */}
         <section
-          aria-labelledby="posts-heading"
           id="posts-panel"
           role="tabpanel"
-          aria-labelledby={`tab-${CATEGORIES.indexOf(selectedCategory)}`}
+          aria-labelledby={`tab-${CATEGORIES.indexOf(selectedCategory)} posts-heading`}
         >
           <h2 id="posts-heading" className="sr-only">게시글 목록</h2>
           <PostList

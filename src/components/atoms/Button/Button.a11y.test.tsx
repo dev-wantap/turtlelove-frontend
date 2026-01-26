@@ -34,12 +34,27 @@ describe('Button 접근성', () => {
       expect(button).toHaveAttribute('aria-label', '로딩 중');
     });
 
-    it('ariaDescription prop이 전달되면 aria-describedby가 설정되어야 함', () => {
+    it('ariaDescription prop이 전달되면 sr-only 요소로 렌더링되어야 함', () => {
       render(
         <Button ariaDescription="추가 설명">버튼</Button>
       );
       const button = screen.getByRole('button');
-      expect(button).toHaveAttribute('aria-describedby', '추가 설명');
+
+      // aria-describedby가 생성된 ID를 참조해야 함
+      const describedBy = button.getAttribute('aria-describedby');
+      expect(describedBy).toBeTruthy();
+
+      // 해당 ID를 가진 sr-only 요소가 존재해야 함
+      const description = document.getElementById(describedBy!);
+      expect(description).toBeInTheDocument();
+      expect(description).toHaveClass('sr-only');
+      expect(description?.textContent).toBe('추가 설명');
+    });
+
+    it('ariaDescription prop이 없으면 aria-describedby가 설정되지 않아야 함', () => {
+      render(<Button>버튼</Button>);
+      const button = screen.getByRole('button');
+      expect(button).not.toHaveAttribute('aria-describedby');
     });
   });
 
@@ -92,6 +107,21 @@ describe('Button 접근성', () => {
 
       expect(consoleSpy).toHaveBeenCalledWith(
         expect.stringContaining('loading')
+      );
+
+      consoleSpy.mockRestore();
+    });
+
+    it('asChild와 ariaDescription을 함께 사용하면 경고가 기록되어야 함', () => {
+      const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      render(
+        <Button asChild ariaDescription="설명">
+          <span>링크</span>
+        </Button>
+      );
+
+      expect(consoleSpy).toHaveBeenCalledWith(
+        expect.stringContaining('ariaDescription')
       );
 
       consoleSpy.mockRestore();
