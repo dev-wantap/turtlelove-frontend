@@ -3,6 +3,7 @@ import { PostCard } from '@/features/posts/components/PostCard';
 import { Spinner } from '@/components/atoms/Spinner';
 import { cn } from '@/shared/utils/cn';
 import type { MyPost } from '../types';
+import { getWarmth } from '@/utils/postUtils';
 
 interface MyPostListProps {
   posts: MyPost[];
@@ -56,7 +57,7 @@ export function MyPostList({ posts, isLoading, className }: MyPostListProps) {
             title: post.title,
             created_at: post.created_at,
           }}
-          warmth={50}
+          warmth={getWarmth(post.id)}
           category={post.category}
           commentCount={post.comment_count}
         />
