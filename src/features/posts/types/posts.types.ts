@@ -19,6 +19,7 @@ export interface PostListResponse {
 // 게시글 상세
 export interface PostDetail {
   id: number;
+  user_id: number;
   title: string;
   content: string;
   category: string;
@@ -34,6 +35,7 @@ export interface Comment {
   is_filtered: boolean;
   is_mine: boolean;
   created_at: string;
+  updated_at?: string;
 }
 
 // 게시글 작성/수정
