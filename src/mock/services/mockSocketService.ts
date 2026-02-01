@@ -18,10 +18,10 @@ class MockSocketService {
   }
 
   sendMessage(payload: SendMessagePayload, onResponse: (response: ChatMessageSubscription) => void): void {
-    const { room_id, content } = payload;
+    const { roomId, content } = payload;
 
     // 내 메시지 저장
-    const myMessage = mockStorage.addChatMessage(room_id, {
+    const myMessage = mockStorage.addChatMessage(roomId, {
       content,
       sender_id: mockStorage.getCurrentUserId() || 1,
     });
@@ -44,15 +44,15 @@ class MockSocketService {
 
     const autoReply: ChatMessageSubscription = {
       id: generateId(),
-      room_id,
-      sender_id: this.getOtherParticipant(room_id),
+      room_id: roomId,
+      sender_id: this.getOtherParticipant(roomId),
       content: randomResponse,
       created_at: generateTimestamp(),
       type: 'MESSAGE',
     };
 
     // 응답 저장
-    mockStorage.addChatMessage(room_id, {
+    mockStorage.addChatMessage(roomId, {
       content: autoReply.content,
       sender_id: autoReply.sender_id,
     });

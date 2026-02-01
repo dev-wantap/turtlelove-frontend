@@ -20,6 +20,7 @@ export interface GetChatMessagesParams {
 
 export interface ChatRoomType {
   room_id: number;
+  participant_ids: number[];
   last_message: string | null;
   last_message_at: string | null;
   unread_count: number;

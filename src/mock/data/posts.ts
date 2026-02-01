@@ -7,6 +7,7 @@ import { generatePastTimestamp } from '../utils/generators';
 export const mockPosts: PostDetail[] = [
   {
     id: 1,
+    user_id: 2,
     title: '썸 타는 사람이 있는데 고백해도 될까요?',
     content: `과 동기랑 한 달 정도 밥도 같이 먹고 영화도 봤는데, 고백하기가 무서워요.
 
@@ -20,6 +21,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 2,
+    user_id: 3,
     title: '연인과 헤어진 후 너무 힘들어요',
     content: `2년 사귄 연인과 어제 헤어졌습니다.
 
@@ -34,6 +36,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 3,
+    user_id: 4,
     title: '친구들과 거리감이 느껴져요',
     content: `복학하고 나니 같은 학번 친구들이 다 졸업해서 혼자 수업 듣는 느낌이에요.
 
@@ -46,6 +49,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 4,
+    user_id: 5,
     title: '취업 준비 언제부터 해야 할까요',
     content: `3학년 1학기인데 아직 취업 준비를 시작하지 않았어요.
 
@@ -58,6 +62,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 5,
+    user_id: 6,
     title: '학점 관리 vs 대외활동 뭐가 더 중요할까요',
     content: `학점도 중요하고 대외활동도 중요하다는데, 둘 다 병행하기가 너무 힘들어요.
 
@@ -72,6 +77,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 6,
+    user_id: 7,
     title: '동아리 선배가 자꾸 연락해요',
     content: `같은 동아리 선배가 자꾸 개인적으로 연락하는데, 어떻게 대응해야 할지 모르겠어요.
 
@@ -84,6 +90,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 7,
+    user_id: 8,
     title: '군대 다녀온 후 학교 적응이 어려워요',
     content: `전역하고 복학했는데 학교 생활이 너무 낯설어요.
 
@@ -96,6 +103,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 8,
+    user_id: 9,
     title: '소개팅에서 계속 차이는데 이유가 뭘까요',
     content: `친구들이 소개팅을 주선해줘서 여러 번 나갔는데, 매번 2-3번 보고 끝나요.
 
@@ -108,6 +116,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 9,
+    user_id: 10,
     title: '과 MT 가기 싫은데 꼭 가야 할까요',
     content: `이번 주말에 과 MT가 있는데 솔직히 가기 싫어요.
 
@@ -120,6 +129,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 10,
+    user_id: 11,
     title: '전공이 너무 안 맞는 것 같아요',
     content: `컴퓨터공학과에 다니고 있는데, 코딩이 너무 어렵고 흥미도 없어요.
 
@@ -132,6 +142,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 11,
+    user_id: 12,
     title: '장거리 연애 중인데 너무 힘들어요',
     content: `군대 간 남자친구를 기다리고 있는데, 외로움이 너무 크네요.
 
@@ -144,6 +155,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 12,
+    user_id: 13,
     title: '학과 공모전에 나갈까 말까 고민돼요',
     content: `학과에서 공모전 팀원을 구하는데, 참여할지 고민돼요.
 
@@ -156,6 +168,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 13,
+    user_id: 14,
     title: '헬스장에서 만난 사람에게 말 걸고 싶어요',
     content: `학교 헬스장에서 자주 보는 사람이 있는데, 어떻게 말을 걸어야 할까요?
 
@@ -168,6 +181,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 14,
+    user_id: 15,
     title: '인턴 경험이 너무 힘들어요',
     content: `방학 때 인턴을 시작했는데, 생각보다 너무 힘들어요.
 
@@ -180,6 +194,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 15,
+    user_id: 16,
     title: '친구가 제 남자친구를 좋아하는 것 같아요',
     content: `친한 친구가 제 남자친구에게 자꾸 관심을 보이는데, 어떻게 대처해야 할까요?
 
@@ -192,6 +207,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 16,
+    user_id: 17,
     title: '교환학생 가고 싶은데 부모님이 반대하세요',
     content: `교환학생 프로그램에 합격했는데, 부모님이 반대하세요.
 
@@ -204,6 +220,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 17,
+    user_id: 18,
     title: '좋아하는 사람에게 거절당했어요',
     content: `용기내서 고백했는데 거절당했어요.
 
@@ -216,6 +233,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 18,
+    user_id: 19,
     title: '과 대표를 맡을까 고민돼요',
     content: `과 대표 선거에 출마하라고 하는데, 부담스러워요.
 
@@ -228,6 +246,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 19,
+    user_id: 20,
     title: '술자리가 너무 부담스러워요',
     content: `학과 선배들이 자주 술자리에 부르는데, 매번 가기 힘들어요.
 
@@ -239,6 +258,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 20,
+    user_id: 21,
     title: '동아리 친구들과 여행 가고 싶어요',
     content: `동아리 친구들과 여행을 계획 중인데, 어디가 좋을까요?
 
@@ -251,6 +271,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 21,
+    user_id: 22,
     title: '졸업 후 대학원 vs 취업 고민돼요',
     content: `졸업을 앞두고 대학원과 취업 사이에서 고민하고 있어요.
 
@@ -263,6 +284,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 22,
+    user_id: 23,
     title: '이성 친구와 단둘이 만나는 게 괜찮을까요',
     content: `연인이 있는데, 이성 친구와 단둘이 밥 먹는 게 괜찮을까요?
 
@@ -275,6 +297,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 23,
+    user_id: 24,
     title: '팀플 무임승차 어떻게 대처해야 하나요',
     content: `팀플에서 아무것도 안 하는 팀원이 있는데, 어떻게 대처해야 할까요?
 
@@ -287,6 +310,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 24,
+    user_id: 25,
     title: '자취 vs 기숙사 어디가 나을까요',
     content: `다음 학기에 자취를 할지 기숙사를 신청할지 고민돼요.
 
@@ -299,6 +323,7 @@ export const mockPosts: PostDetail[] = [
   },
   {
     id: 25,
+    user_id: 26,
     title: '연애 vs 학업 둘 다 잘하는 방법',
     content: `연애하면서 학점도 잘 받는 분들 어떻게 하시나요?
 

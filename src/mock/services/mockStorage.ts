@@ -49,7 +49,7 @@ class MockStorage {
   }
 
   // 현재 사용자
-  setCurrentUser(userId: number): void {
+  setCurrentUser(userId: number | null): void {
     this.currentUserId = userId;
   }
 
@@ -74,13 +74,14 @@ class MockStorage {
     return {
       ...post,
       comments: this.comments[id] || [],
-      is_mine: this.currentUserId === 1, // 간단화: 사용자 ID 1이 작성자
+      is_mine: this.currentUserId !== null && post.user_id === this.currentUserId,
     };
   }
 
   createPost(data: any): PostDetail {
     const newPost: PostDetail = {
       id: generateId(),
+      user_id: this.currentUserId || 1,
       title: data.title,
       content: data.content,
       category: '연애', // 간단화: 카테고리 ID → 이름 매핑 생략
@@ -139,6 +140,7 @@ class MockStorage {
         this.comments[postId][index] = {
           ...this.comments[postId][index],
           content: data.content,
+          updated_at: generateTimestamp(),
         };
         return this.comments[postId][index];
       }

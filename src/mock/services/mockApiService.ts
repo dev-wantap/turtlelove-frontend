@@ -152,7 +152,7 @@ class MockApiService {
   }
 
   private handleLogout() {
-    mockStorage.setCurrentUser(null!);
+    mockStorage.setCurrentUser(null);
     return { message: 'Logged out successfully' };
   }
 
@@ -175,7 +175,14 @@ class MockApiService {
       // 간단화: 카테고리 필터링 생략
     }
 
-    return { content: posts };
+    // API 스펙에 맞게 id, title, created_at만 반환
+    return {
+      content: posts.map((p) => ({
+        id: p.id,
+        title: p.title,
+        created_at: p.created_at,
+      })),
+    };
   }
 
   private handleGetPostDetail(postId: number) {
@@ -236,7 +243,13 @@ class MockApiService {
       };
     }
 
-    return updated;
+    // API 스펙에 맞게 id, content, is_filtered, updated_at만 반환
+    return {
+      id: updated.id,
+      content: updated.content,
+      is_filtered: updated.is_filtered,
+      updated_at: updated.updated_at || updated.created_at,
+    };
   }
 
   private handleDeleteComment(commentId: number) {
@@ -249,7 +262,7 @@ class MockApiService {
       };
     }
 
-    return { message: 'Comment deleted successfully', commentId };
+    return { message: '댓글이 성공적으로 삭제되었습니다.', commentId };
   }
 
   // ===== Chat Handlers =====

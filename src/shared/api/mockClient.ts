@@ -1,6 +1,6 @@
 import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { mockApiService } from '@/mock/services/mockApiService';
-import { simulateNetworkDelay } from '@/mock/utils/delays';
+import { useAuthStore } from '@/stores';
 
 /**
  * Mock Axios-like client
@@ -13,8 +13,16 @@ export const createMockClient = (): AxiosInstance => {
     data?: any,
     config?: AxiosRequestConfig
   ): Promise<AxiosResponse<T>> => {
+    // 토큰 첨부
+    const state = useAuthStore.getState();
+    const token = state.accessToken;
+    const headers = {
+      ...config?.headers,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+
     try {
-      const responseData = await mockApiService.handleRequest(method, url, data, config);
+      const responseData = await mockApiService.handleRequest(method, url, data, { ...config, headers });
 
       return {
         data: responseData,
