@@ -54,33 +54,33 @@ class MockApiService {
     }
 
     if (path === '/posts' && method === 'POST') {
-      return this.handleCreatePost(data);
+      return this.handleCreatePost(data, config);
     }
 
     if (path.match(/^\/posts\/\d+$/) && method === 'PUT') {
       const postId = parseInt(path.split('/')[2]);
-      return this.handleUpdatePost(postId, data);
+      return this.handleUpdatePost(postId, data, config);
     }
 
     if (path.match(/^\/posts\/\d+$/) && method === 'DELETE') {
       const postId = parseInt(path.split('/')[2]);
-      return this.handleDeletePost(postId);
+      return this.handleDeletePost(postId, config);
     }
 
     // ===== Comments 라우팅 =====
     if (path.match(/^\/posts\/\d+\/comments$/) && method === 'POST') {
       const postId = parseInt(path.split('/')[2]);
-      return this.handleCreateComment(postId, data);
+      return this.handleCreateComment(postId, data, config);
     }
 
     if (path.match(/^\/comments\/\d+$/) && method === 'PUT') {
       const commentId = parseInt(path.split('/')[2]);
-      return this.handleUpdateComment(commentId, data);
+      return this.handleUpdateComment(commentId, data, config);
     }
 
     if (path.match(/^\/comments\/\d+$/) && method === 'DELETE') {
       const commentId = parseInt(path.split('/')[2]);
-      return this.handleDeleteComment(commentId);
+      return this.handleDeleteComment(commentId, config);
     }
 
     // ===== Chat 라우팅 =====
@@ -89,7 +89,7 @@ class MockApiService {
     }
 
     if (path === '/chats/rooms' && method === 'POST') {
-      return this.handleCreateChatRoom(data);
+      return this.handleCreateChatRoom(data, config);
     }
 
     if (path.match(/^\/chats\/rooms\/\d+\/messages$/) && method === 'GET') {
@@ -166,6 +166,17 @@ class MockApiService {
     return { message: 'Email confirmed' };
   }
 
+  // ===== Utility =====
+  private requireAuth(config?: AxiosRequestConfig): void {
+    const token = config?.headers?.Authorization;
+    if (!token) {
+      throw {
+        status: 401,
+        data: { code: 'UNAUTHORIZED', message: '로그인이 필요합니다.' },
+      };
+    }
+  }
+
   // ===== Posts Handlers =====
   private handleGetPosts(params: any) {
     let posts = mockStorage.getPosts();
@@ -198,11 +209,13 @@ class MockApiService {
     return post;
   }
 
-  private handleCreatePost(data: any) {
+  private handleCreatePost(data: any, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     return mockStorage.createPost(data);
   }
 
-  private handleUpdatePost(postId: number, data: any) {
+  private handleUpdatePost(postId: number, data: any, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     const updated = mockStorage.updatePost(postId, data);
 
     if (!updated) {
@@ -215,7 +228,8 @@ class MockApiService {
     return updated;
   }
 
-  private handleDeletePost(postId: number) {
+  private handleDeletePost(postId: number, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     const deleted = mockStorage.deletePost(postId);
 
     if (!deleted) {
@@ -229,11 +243,13 @@ class MockApiService {
   }
 
   // ===== Comments Handlers =====
-  private handleCreateComment(postId: number, data: any) {
+  private handleCreateComment(postId: number, data: any, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     return mockStorage.createComment(postId, data);
   }
 
-  private handleUpdateComment(commentId: number, data: any) {
+  private handleUpdateComment(commentId: number, data: any, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     const updated = mockStorage.updateComment(commentId, data);
 
     if (!updated) {
@@ -252,7 +268,8 @@ class MockApiService {
     };
   }
 
-  private handleDeleteComment(commentId: number) {
+  private handleDeleteComment(commentId: number, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     const deleted = mockStorage.deleteComment(commentId);
 
     if (!deleted) {
@@ -270,7 +287,8 @@ class MockApiService {
     return mockStorage.getChatRooms();
   }
 
-  private handleCreateChatRoom(data: any) {
+  private handleCreateChatRoom(data: any, config?: AxiosRequestConfig) {
+    this.requireAuth(config);
     return mockStorage.createChatRoom(data);
   }
 

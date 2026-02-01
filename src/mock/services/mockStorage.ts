@@ -79,9 +79,12 @@ class MockStorage {
   }
 
   createPost(data: any): PostDetail {
+    if (this.currentUserId === null) {
+      throw new Error('Current user is not authenticated');
+    }
     const newPost: PostDetail = {
       id: generateId(),
-      user_id: this.currentUserId || 1,
+      user_id: this.currentUserId,
       title: data.title,
       content: data.content,
       category: '연애', // 간단화: 카테고리 ID → 이름 매핑 생략
@@ -116,13 +119,16 @@ class MockStorage {
   }
 
   createComment(postId: number, data: any): Comment {
+    if (this.currentUserId === null) {
+      throw new Error('Current user is not authenticated');
+    }
     if (!this.comments[postId]) {
       this.comments[postId] = [];
     }
 
     const newComment: Comment = {
       id: generateId(),
-      user_id: this.currentUserId || 1,
+      user_id: this.currentUserId,
       content: data.content,
       is_filtered: false, // AI 필터링 시뮬레이션 (항상 통과)
       is_mine: true,
@@ -169,10 +175,13 @@ class MockStorage {
   }
 
   createChatRoom(data: any): any {
+    if (this.currentUserId === null) {
+      throw new Error('Current user is not authenticated');
+    }
     const newRoom = {
       room_id: generateId(),
       post_id: data.post_id,
-      participant_ids: [this.currentUserId || 1, data.receiver_id],
+      participant_ids: [this.currentUserId, data.receiver_id],
       last_message: '',
       last_message_at: generateTimestamp(),
       unread_count: 0,
@@ -196,10 +205,15 @@ class MockStorage {
       this.chatMessages[roomId] = [];
     }
 
+    const senderId = data.sender_id ?? this.currentUserId;
+    if (senderId === null) {
+      throw new Error('Sender ID is required');
+    }
+
     const newMessage = {
       id: generateId(),
       room_id: roomId,
-      sender_id: data.sender_id || this.currentUserId || 1,
+      sender_id: senderId,
       content: data.content,
       created_at: generateTimestamp(),
     };
