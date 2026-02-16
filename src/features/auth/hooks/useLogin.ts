@@ -19,16 +19,22 @@ export function useLogin() {
       if (data.user) {
         setAuth(data.user, data.accessToken);
       } else {
-        // TODO: /me API 추가되면 user 정보 가져오기
-        // 임시: 최소한의 user 객체 생성 (이메일만 저장)
-        const tempUser: User = {
-          id: 0,
-          email: variables.email,
-          nickname: '익명',
-          university: '미정',
-          gender: null,
-        };
-        setAuth(tempUser, data.accessToken);
+        // 실제 백엔드: /me API로 user 정보 가져오기
+        try {
+          const user = await authApi.getMe();
+          setAuth(user, data.accessToken);
+        } catch (error) {
+          console.error('Failed to fetch user info:', error);
+          // fallback: 최소한의 정보로 진행
+          const tempUser: User = {
+            id: 0,
+            email: variables.email,
+            nickname: '익명',
+            university: '미정',
+            gender: null,
+          };
+          setAuth(tempUser, data.accessToken);
+        }
       }
 
       navigate('/posts');

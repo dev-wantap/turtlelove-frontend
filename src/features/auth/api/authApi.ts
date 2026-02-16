@@ -9,6 +9,7 @@ import type {
   SignupResponse,
   ConfirmVerificationCodeRequest,
 } from '../types/auth.types';
+import type { User } from '@/stores';
 
 export const authApi = {
   // 이메일 인증번호 발송
@@ -41,6 +42,12 @@ export const authApi = {
   // 토큰 갱신
   refreshToken: async (data: RefreshTokenRequest): Promise<RefreshTokenResponse> => {
     const response = await apiClient.post<RefreshTokenResponse>('/auth/refresh', data);
+    return response.data;
+  },
+
+  // 현재 로그인 사용자 정보 조회
+  getMe: async (): Promise<User> => {
+    const response = await apiClient.get<User>('/auth/me');
     return response.data;
   },
 };
