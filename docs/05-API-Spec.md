@@ -122,7 +122,7 @@
 | email | string | Yes | 이메일 주소 |
 | nickname | string | Yes | 사용자 닉네임 |
 | university | string | Yes | 소속 대학교 (이메일 도메인에서 자동 파싱) |
-| gender | string | Yes | 성별 ("MALE" 또는 "FEMALE") |
+| gender | string \| null | Yes (may be null) | 성별 ("MALE" 또는 "FEMALE", null 가능) |
 
 **Error Cases:**
 
