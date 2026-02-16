@@ -18,26 +18,23 @@ export function useLogin() {
       // 응답에 user 정보가 있으면 사용 (Demo 모드)
       if (data.user) {
         setAuth(data.user, data.accessToken);
+        navigate('/posts');
       } else {
         // 실제 백엔드: /me API로 user 정보 가져오기
         try {
           const user = await authApi.getMe();
           setAuth(user, data.accessToken);
+          navigate('/posts');
         } catch (error) {
           console.error('Failed to fetch user info:', error);
-          // fallback: 최소한의 정보로 진행
-          const tempUser: User = {
-            id: 0,
-            email: variables.email,
-            nickname: '익명',
-            university: '미정',
-            gender: null,
-          };
-          setAuth(tempUser, data.accessToken);
+          // user 정보 가져오기 실패 시 로그인 실패 처리
+          // partial auth state 정리
+          const authState = useAuthStore.getState();
+          authState.logout();
+          // 에러를 다시 던져서 호출자가 처리할 수 있게 함
+          throw error;
         }
       }
-
-      navigate('/posts');
     },
     onError: (error) => {
       console.error('Login failed:', error);
