@@ -36,3 +36,4 @@ coverage/
 
 # Claude project instructions (keep root CLAUDE.md, ignore subdirectories)
 **/CLAUDE.md
+!/CLAUDE.md
