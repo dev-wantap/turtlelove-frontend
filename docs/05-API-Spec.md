@@ -96,6 +96,39 @@
 - **Description:** 서버 측 Redis에서 해당 유저의 Refresh Token을 삭제하여 즉시 무효화합니다.
 - **Header:** `Authorization: Bearer {accessToken}`
 
+### 1-7. 현재 사용자 정보 조회 (Get Current User)
+
+- **Endpoint:** `GET /auth/me`
+- **Description:** 현재 로그인한 사용자의 정보를 반환합니다. JWT 토큰으로 사용자를 식별합니다.
+- **Header:** `Authorization: Bearer {accessToken}`
+
+- Response (200 OK):
+
+```sql
+{
+  "id": 1,
+  "email": "student@snu.ac.kr",
+  "nickname": "익명1",
+  "university": "서울대학교",
+  "gender": "MALE"
+}
+```
+
+**Response Schema:**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| id | number | Yes | 사용자 고유 ID |
+| email | string | Yes | 이메일 주소 |
+| nickname | string | Yes | 사용자 닉네임 |
+| university | string | Yes | 소속 대학교 (이메일 도메인에서 자동 파싱) |
+| gender | string \| null | Yes (may be null) | 성별 ("MALE" 또는 "FEMALE", null 가능) |
+
+**Error Cases:**
+
+- `401`: 인증 토큰이 유효하지 않거나 만료되었습니다.
+- `404`: 사용자를 찾을 수 없습니다.
+
 ---
 
 ## 2. 게시글 및 댓글 (Community)
