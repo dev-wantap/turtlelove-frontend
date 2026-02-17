@@ -144,7 +144,7 @@ export function PostForm({
                   {...register('categoryId', { valueAsNumber: true })}
                 />
                 <Badge
-                  variant={selectedCategory === cat.id ? 'success' : 'default'}
+                  variant={Number(selectedCategory) === cat.id ? 'success' : 'default'}
                   className="cursor-pointer transition-colors hover:bg-soft-gray"
                 >
                   #{cat.name}
