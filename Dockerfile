@@ -44,6 +44,11 @@ FROM nginx:alpine AS production
 # Install curl for health checks
 RUN apk add --no-cache curl
 
+# Install and set timezone to Asia/Seoul
+RUN apk add --no-cache tzdata && \
+    cp /usr/share/zoneinfo/Asia/Seoul /etc/localtime && \
+    echo "Asia/Seoul" > /etc/timezone
+
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S reactjs -u 1001
