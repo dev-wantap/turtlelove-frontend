@@ -18,11 +18,18 @@ export function useChatSocket({ roomId, onMessage }: UseChatSocketOptions = {}) 
   const socketServiceRef = useRef<ReturnType<typeof getChatSocketService> | null>(null);
   const onMessageRef = useRef(onMessage);
   const { accessToken } = useAuthStore();
+  // Ref to always have the latest accessToken for cleanup
+  const accessTokenRef = useRef(accessToken);
 
   // 최신 콜백 유지
   useEffect(() => {
     onMessageRef.current = onMessage;
   }, [onMessage]);
+
+  // Keep accessTokenRef in sync with latest accessToken
+  useEffect(() => {
+    accessTokenRef.current = accessToken;
+  }, [accessToken]);
 
   // 콜백 생성 로직을 useCallback으로 추출
   const createCallbacks = useCallback(() => ({
@@ -99,7 +106,7 @@ export function useChatSocket({ roomId, onMessage }: UseChatSocketOptions = {}) 
     }
 
     return () => {
-      if (!accessToken) {
+      if (!accessTokenRef.current) {
         console.log('[DEBUG] No token, disconnecting');
         socketServiceRef.current?.disconnect();
       }
