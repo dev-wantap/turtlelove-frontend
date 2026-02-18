@@ -81,6 +81,11 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
     }
   };
 
+  const handleModalOpenChange = (open: boolean) => {
+    if (isLeaving) return; // 로딩 중에는 모달 닫기 불가
+    setIsConfirmModalOpen(open);
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center h-96">
@@ -266,7 +271,7 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
       {/* 컨펌 모달 */}
       <Modal
         open={isConfirmModalOpen}
-        onOpenChange={setIsConfirmModalOpen}
+        onOpenChange={handleModalOpenChange}
         title="채팅방 나가기"
         description="채팅방에서 나가면 대화 내용이 삭제되고 다시 복구할 수 없습니다."
       >
@@ -274,6 +279,7 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
           <Button
             variant="ghost"
             onClick={() => setIsConfirmModalOpen(false)}
+            disabled={isLeaving}
             className="flex-1"
           >
             취소

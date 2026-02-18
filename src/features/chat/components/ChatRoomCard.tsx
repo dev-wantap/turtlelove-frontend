@@ -26,6 +26,11 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
     setIsConfirmModalOpen(false);
   };
 
+  const handleModalOpenChange = (open: boolean) => {
+    if (isPending) return; // 로딩 중에는 모달 닫기 불가
+    setIsConfirmModalOpen(open);
+  };
+
   return (
     <>
       <div className="relative group p-4 rounded-2xl bg-gradient-to-br from-warm-white/70 to-rose-50/30 hover:from-warm-white hover:to-rose-100/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 border border-rose-100/30 hover:border-rose-200/50 hover:shadow-lg hover:shadow-rose-100/20">
@@ -120,7 +125,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
       {/* 컨펌 모달 */}
       <Modal
         open={isConfirmModalOpen}
-        onOpenChange={setIsConfirmModalOpen}
+        onOpenChange={handleModalOpenChange}
         title="채팅방 나가기"
         description="채팅방에서 나가면 대화 내용이 삭제되고 다시 복구할 수 없습니다."
       >
@@ -128,6 +133,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
           <Button
             variant="ghost"
             onClick={() => setIsConfirmModalOpen(false)}
+            disabled={isPending}
             className="flex-1"
           >
             취소
