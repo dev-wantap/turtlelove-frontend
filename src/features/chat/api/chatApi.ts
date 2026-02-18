@@ -5,6 +5,7 @@ import type {
   ChatRoomListResponse,
   ChatMessagesResponse,
   GetChatMessagesParams,
+  LeaveChatRoomResponse,
 } from '../types/chat.types';
 
 export type { ChatRoomType as ChatRoom } from '../types/chat.types';
@@ -43,6 +44,17 @@ export const chatApi = {
           size,
         },
       }
+    );
+    return response.data;
+  },
+
+  /**
+   * 채팅방 나가기
+   * DELETE /chats/rooms/{roomId}/leave
+   */
+  leaveRoom: async (roomId: number): Promise<LeaveChatRoomResponse> => {
+    const response = await apiClient.delete<LeaveChatRoomResponse>(
+      `/chats/rooms/${roomId}/leave`
     );
     return response.data;
   },

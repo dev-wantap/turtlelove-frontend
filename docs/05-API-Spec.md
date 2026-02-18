@@ -317,6 +317,26 @@ Response Body:
 
 ### 3-3. 실시간 채팅 (아직 고민중)
 
+### 3-4. 채팅방 나가기
+
+- **Endpoint:** `DELETE /chats/rooms/{roomId}/leave`
+- **Description:** 현재 사용자가 채팅방에서 나갑니다. 나간 사용자에게만 채팅방 목록에서 제외되며, 상대방에게는 계속 표시됩니다. 양쪽 모두 나가면 채팅방이 완전히 삭제됩니다.
+- **Header:** `Authorization: Bearer {accessToken}`
+
+**Response Body (200 OK):**
+
+```sql
+{
+  "message": "채팅방에서 나갔습니다.",
+  "room_id": 1
+}
+```
+
+**Error Cases:**
+
+- `403 Forbidden`: 채팅방 참여자가 아닙니다.
+- `404 Not Found`: 존재하지 않는 채팅방입니다.
+
 ---
 
 ## **4. 마이페이지 (MyPage)** (페이징을 넣을지 말지 고민중)
@@ -390,7 +410,7 @@ Response Body:
     "last_message": "네, 내일 뵙겠습니다!",
     "last_message_at": "2026-01-12T16:30:00",
     "unread_count": 2,            // 안 읽은 메시지 수
-    "post_info": {
+    "post_info": {                // 연결된 게시글 정보 (게시글 삭제 시 null)
       "id": 10,
       "title": "익명 고민 상담입니다"
     }
