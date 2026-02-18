@@ -1,9 +1,12 @@
-import { useEffect, useRef } from 'react';
-import { useChatMessages, useChatSocket } from '../hooks';
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useChatMessages, useChatSocket, useLeaveChatRoom } from '../hooks';
 import { ChatBubble } from './ChatBubble';
 import { ChatInput } from './ChatInput';
 import { ConnectionStatus } from './ConnectionStatus';
 import { Spinner } from '@/components/atoms/Spinner';
+import { Button } from '@/components/atoms/Button';
+import { Modal } from '@/components/atoms/Modal';
 import type { ChatRoomType } from '../types/chat.types';
 
 interface ChatRoomProps {
@@ -13,9 +16,12 @@ interface ChatRoomProps {
 
 export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
   const { room_id, post_info } = room;
+  const navigate = useNavigate();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const loadingOlderRef = useRef(false);
+  const { leaveRoom, isPending: isLeaving } = useLeaveChatRoom();
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const {
     data,
@@ -57,6 +63,17 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
     } catch (err) {
       console.error('Failed to send message:', err);
     }
+  };
+
+  const handleLeaveClick = () => {
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmLeave = () => {
+    leaveRoom(room_id);
+    setIsConfirmModalOpen(false);
+    // 나가기 성공 후 채팅 목록 페이지로 이동은 useLeaveChatRoom의 onSuccess에서 처리됨
+    navigate('/chats');
   };
 
   if (isLoading) {
@@ -105,21 +122,46 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
     <div className="flex flex-col h-full bg-gradient-to-br from-cream to-rose-50/20">
       {/* 게시글 정보 헤더 */}
       <div className="flex-shrink-0 px-4 py-3 border-b border-rose-100/30 bg-gradient-to-r from-warm-white/80 to-rose-50/40 backdrop-blur-sm">
-        <div className="flex items-center gap-2">
-          <svg
-            className="w-4 h-4 text-rose-400"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
+            <svg
+              className="w-4 h-4 text-rose-400 flex-shrink-0"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path
+                fillRule="evenodd"
+                d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <h2 className="font-heading font-semibold text-text-primary text-sm truncate">
+              "{post_info?.title ?? '삭제된 게시글'}" 게시글에서 시작된 대화
+            </h2>
+          </div>
+
+          {/* 나가기 버튼 */}
+          <button
+            onClick={handleLeaveClick}
+            disabled={isLeaving}
+            className="flex-shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-text-muted hover:text-red-500 hover:bg-red-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="채팅방 나가기"
           >
-            <path
-              fillRule="evenodd"
-              d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
-              clipRule="evenodd"
-            />
-          </svg>
-          <h2 className="font-heading font-semibold text-text-primary text-sm">
-            "{post_info?.title ?? '삭제된 게시글'}" 게시글에서 시작된 대화
-          </h2>
+            <svg
+              className="w-3.5 h-3.5 transition-transform duration-200 hover:-rotate-90"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              />
+            </svg>
+            <span>나가기</span>
+          </button>
         </div>
       </div>
 
@@ -215,6 +257,32 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
         disabled={!isConnected}
         isSending={false}
       />
+
+      {/* 컨펌 모달 */}
+      <Modal
+        open={isConfirmModalOpen}
+        onOpenChange={setIsConfirmModalOpen}
+        title="채팅방 나가기"
+        description="채팅방에서 나가면 대화 내용이 삭제되고 다시 복구할 수 없습니다."
+      >
+        <div className="flex gap-3 mt-6">
+          <Button
+            variant="ghost"
+            onClick={() => setIsConfirmModalOpen(false)}
+            className="flex-1"
+          >
+            취소
+          </Button>
+          <Button
+            variant="danger"
+            onClick={handleConfirmLeave}
+            loading={isLeaving}
+            className="flex-1"
+          >
+            나가기
+          </Button>
+        </div>
+      </Modal>
     </div>
   );
 }

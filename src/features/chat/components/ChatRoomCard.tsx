@@ -56,11 +56,11 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
                 <button
                   onClick={handleLeaveClick}
                   disabled={isPending}
-                  className="flex-shrink-0 p-1.5 rounded-full text-text-muted hover:text-red-500 hover:bg-red-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
+                  className="flex-shrink-0 flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium text-text-muted hover:text-red-500 hover:bg-red-50 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed group/btn"
                   aria-label="채팅방 나가기"
                 >
                   <svg
-                    className="w-4 h-4 transition-transform duration-200 group-hover/btn:rotate-180"
+                    className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:-rotate-90"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -72,6 +72,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
                       d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
                     />
                   </svg>
+                  <span>나가기</span>
                 </button>
 
                 {unread_count > 0 && (
