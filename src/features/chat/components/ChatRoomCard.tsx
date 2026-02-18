@@ -17,8 +17,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
   const { leaveRoom, isPending } = useLeaveChatRoom();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
-  const handleLeaveClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Link 이동 방지
+  const handleLeaveClick = () => {
     setIsConfirmModalOpen(true);
   };
 
@@ -29,11 +28,15 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
 
   return (
     <>
-      <Link
-        to={`/chats/${room_id}`}
-        className="group block p-4 rounded-2xl bg-gradient-to-br from-warm-white/70 to-rose-50/30 hover:from-warm-white hover:to-rose-100/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 border border-rose-100/30 hover:border-rose-200/50 hover:shadow-lg hover:shadow-rose-100/20"
-      >
-        <div className="flex gap-3">
+      <div className="relative group p-4 rounded-2xl bg-gradient-to-br from-warm-white/70 to-rose-50/30 hover:from-warm-white hover:to-rose-100/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-2 border border-rose-100/30 hover:border-rose-200/50 hover:shadow-lg hover:shadow-rose-100/20">
+        {/* Stretched link for entire card */}
+        <Link
+          to={`/chats/${room_id}`}
+          className="absolute inset-0 rounded-2xl"
+          aria-label={`채팅방 ${post_info?.title ?? '삭제된 게시글'} 열기`}
+        />
+
+        <div className="flex gap-3 relative">
           {/* 익명 아바타 - 따뜻한 sunset gradient */}
           <div className="flex-shrink-0">
             <div className="relative">
@@ -51,7 +54,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
                 {post_info ? post_info.title : '삭제된 게시글'}
               </h3>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 relative z-10">
                 {/* 나가기 버튼 */}
                 <button
                   onClick={handleLeaveClick}
@@ -112,7 +115,7 @@ export function ChatRoomCard({ room }: ChatRoomCardProps) {
             )}
           </div>
         </div>
-      </Link>
+      </div>
 
       {/* 컨펌 모달 */}
       <Modal
