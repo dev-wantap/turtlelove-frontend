@@ -27,7 +27,7 @@ export interface ChatRoomType {
   post_info: {
     id: number;
     title: string;
-  };
+  } | null;  // 게시글 삭제된 경우 null
   opponent_nickname?: string;
 }
 
@@ -69,4 +69,13 @@ export interface ConnectionStatusType {
   connected: boolean;
   connecting: boolean;
   error: Error | null;
+}
+
+// =====================================================
+// DELETE RESPONSE TYPES
+// =====================================================
+
+export interface LeaveChatRoomResponse {
+  message: string;
+  room_id: number;
 }

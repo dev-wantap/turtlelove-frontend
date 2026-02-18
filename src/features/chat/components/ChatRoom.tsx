@@ -118,7 +118,7 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
             />
           </svg>
           <h2 className="font-heading font-semibold text-text-primary text-sm">
-            "{post_info.title}" 게시글에서 시작된 대화
+            "{post_info?.title ?? '삭제된 게시글'}" 게시글에서 시작된 대화
           </h2>
         </div>
       </div>
