@@ -20,7 +20,7 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const loadingOlderRef = useRef(false);
-  const { leaveRoom, isPending: isLeaving } = useLeaveChatRoom();
+  const { leaveRoomAsync, isPending: isLeaving } = useLeaveChatRoom();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const {
@@ -69,11 +69,16 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
     setIsConfirmModalOpen(true);
   };
 
-  const handleConfirmLeave = () => {
-    leaveRoom(room_id);
-    setIsConfirmModalOpen(false);
-    // 나가기 성공 후 채팅 목록 페이지로 이동은 useLeaveChatRoom의 onSuccess에서 처리됨
-    navigate('/chats');
+  const handleConfirmLeave = async () => {
+    try {
+      await leaveRoomAsync(room_id);
+      setIsConfirmModalOpen(false);
+      // 나가기 성공 후에만 채팅 목록 페이지로 이동
+      navigate('/chats');
+    } catch (err) {
+      // 에러 발생 시 모달을 닫지 않음 (useLeaveChatRoom에서 Toast 표시)
+      console.error('Failed to leave chat room:', err);
+    }
   };
 
   if (isLoading) {

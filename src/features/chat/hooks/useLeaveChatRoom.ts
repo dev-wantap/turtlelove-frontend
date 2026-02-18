@@ -32,6 +32,7 @@ export function useLeaveChatRoom() {
 
   return {
     leaveRoom: mutation.mutate,
+    leaveRoomAsync: mutation.mutateAsync,
     isPending: mutation.isPending,
   };
 }
