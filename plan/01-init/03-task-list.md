@@ -1,4 +1,4 @@
-# AnonHeart Frontend Task List
+# TurtleLove Frontend Task List
 
 ## Phase 1: 프로젝트 초기 설정
 
@@ -89,7 +89,7 @@
 - [x] `Modal` - 공통 모달 컴포넌트 (Radix UI Dialog 기반)
 - [ ] `Dropdown` - 선택 드롭다운
 
-### 3.3 AnonHeart 특화 컴포넌트
+### 3.3 TurtleLove 특화 컴포넌트
 
 - [x] `WarmthMeter` - 게시글 "열기"를 보여주는 온도계 (0-100)
 

@@ -10,8 +10,8 @@ export function AuthLayout() {
             to="/"
             className="inline-block font-heading text-xl font-semibold text-text-primary"
           >
-            <span className="text-rose">Anon</span>
-            <span>Heart</span>
+            <span className="text-rose">Turtle</span>
+            <span>Love</span>
           </Link>
         </div>
       </header>
@@ -27,7 +27,7 @@ export function AuthLayout() {
       <footer className="py-6">
         <div className="mx-auto max-w-md px-4 text-center">
           <p className="font-ui text-xs text-text-muted">
-            &copy; {new Date().getFullYear()} AnonHeart
+            &copy; {new Date().getFullYear()} TurtleLove
           </p>
         </div>
       </footer>

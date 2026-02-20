@@ -2,7 +2,7 @@
 
 ## 개요
 
-AnonHeart 1:1 실시간 채팅 기능을 위한 WebSocket(STOMP) 백엔드 사양 제안입니다. 프론트엔드는 STOMP.js v7을 사용하여 구현할 예정입니다.
+TurtleLove 1:1 실시간 채팅 기능을 위한 WebSocket(STOMP) 백엔드 사양 제안입니다. 프론트엔드는 STOMP.js v7을 사용하여 구현할 예정입니다.
 
 ---
 
