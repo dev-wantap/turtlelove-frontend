@@ -1,4 +1,4 @@
-# TurtleLove Frontend 시스템 설계
+# AnonHeart Frontend 시스템 설계
 
 ## 1. 기술 스택
 
@@ -449,7 +449,7 @@ export const chatSocket = new ChatSocketService();
 
 ### 8.1 Design Philosophy: "Emotional & Safe"
 
-TurtleLove는 대학생 익명 상담 커뮤니티로, **따뜻하고 안전한** 느낌을 전달하는 것이 핵심입니다.
+AnonHeart는 대학생 익명 상담 커뮤니티로, **따뜻하고 안전한** 느낌을 전달하는 것이 핵심입니다.
 
 - **Vibe**: Personal Diary, Medium 앱의 독서 경험
 - **Avoid**: Tech/Cyber 미학, 네온, 날카로운 라인

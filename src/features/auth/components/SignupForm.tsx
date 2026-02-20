@@ -41,8 +41,8 @@ const signupSchema = z.object({
     .min(1, '비밀번호를 입력해주세요')
     .min(8, '비밀번호는 8자 이상이어야 합니다')
     .regex(
-      /^(?=.*[A-Za-z])(?=.*\d)/,
-      '비밀번호는 영문과 숫자를 포함해야 합니다'
+      /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
+      '비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 합니다'
     ),
   passwordConfirm: z.string(),
   nickname: z
@@ -268,13 +268,18 @@ function Step3Signup({
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-      <Input
-        label="비밀번호"
-        type="password"
-        placeholder="8자 이상, 영문+숫자"
-        error={errors.password?.message}
-        {...register('password')}
-      />
+      <div>
+        <Input
+          label="비밀번호"
+          type="password"
+          placeholder="8자 이상, 영문+숫자+특수문자"
+          error={errors.password?.message}
+          {...register('password')}
+        />
+        <p className="mt-2 text-xs font-ui text-text-muted">
+          영문, 숫자, 특수문자를 각각 1개 이상 포함해야 합니다
+        </p>
+      </div>
 
       <Input
         label="비밀번호 확인"
