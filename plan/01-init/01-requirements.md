@@ -1,4 +1,4 @@
-# TurtleLove Frontend 요구사항 정리
+# AnonHeart Frontend 요구사항 정리
 
 ## 1. 기능 요구사항 (UseCase 기반)
 

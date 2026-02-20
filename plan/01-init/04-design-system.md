@@ -1,10 +1,10 @@
-# TurtleLove Design System
+# AnonHeart Design System
 
 ## 1. Design Philosophy
 
 ### 1.1 Core Aesthetic: "Emotional & Safe"
 
-TurtleLove는 대학생들이 연애 고민을 익명으로 나누는 공간입니다. 디자인은 **따뜻하고, 부드럽고, 안전한** 느낌을 전달해야 합니다.
+AnonHeart는 대학생들이 연애 고민을 익명으로 나누는 공간입니다. 디자인은 **따뜻하고, 부드럽고, 안전한** 느낌을 전달해야 합니다.
 
 **Vibe Keywords:**
 - Personal Diary (개인 일기장)
