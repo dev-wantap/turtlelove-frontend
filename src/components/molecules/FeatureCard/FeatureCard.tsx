@@ -31,7 +31,6 @@ export function FeatureCard({
         'hover:shadow-soft-md',
         'hover:-translate-y-1',
         'active:translate-y-0',
-        'cursor-pointer',
         className
       )}
       {...props}
