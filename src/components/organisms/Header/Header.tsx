@@ -37,8 +37,8 @@ export function Header() {
           className="flex items-center gap-2 font-heading text-xl font-semibold text-text-primary"
         >
           <span>
-            <span className="text-rose">Turtle</span>
-            <span>Love</span>
+            <span className="text-rose">Anon</span>
+            <span>Heart</span>
           </span>
         </Link>
 
