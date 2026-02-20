@@ -50,20 +50,20 @@ export function LandingHero({ className }: { className?: string }) {
             <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-rose to-rose-deep shadow-rose">
               <HeartHandshake size={32} strokeWidth={2} className="text-white" />
             </div>
-            <h1 className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+            <div className="font-heading text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
               <span className="text-rose relative inline-block">
                 Anon
                 <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-gradient-to-r from-rose to-transparent opacity-60" />
               </span>
               <span>Love</span>
-            </h1>
+            </div>
           </div>
 
           {/* Main Heading */}
-          <h2 className="mb-6 font-heading text-2xl md:text-4xl font-semibold text-text-primary leading-tight">
+          <h1 className="mb-6 font-heading text-2xl md:text-4xl font-semibold text-text-primary leading-tight">
             대학생들을 위한<br className="md:hidden" />
             <span className="text-rose">익명 연애 상담</span> 커뮤니티
-          </h2>
+          </h1>
 
           {/* Subheading */}
           <p className="mb-10 max-w-xl mx-auto font-body text-lg md:text-xl text-text-secondary leading-relaxed">
