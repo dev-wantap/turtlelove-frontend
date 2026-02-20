@@ -1,9 +1,9 @@
-import type { HTMLAttributes } from 'react';
+import type { HTMLAttributes, ReactNode } from 'react';
 import { GradientOrb } from '@/components/atoms/GradientOrb';
 import { cn } from '@/shared/utils/cn';
 
 export interface FeatureCardProps extends HTMLAttributes<HTMLDivElement> {
-  icon: React.ReactNode;
+  icon: ReactNode;
   title: string;
   description: string;
   orbVariant?: 'sunset' | 'ocean' | 'blossom' | 'forest' | 'dawn' | 'twilight';
