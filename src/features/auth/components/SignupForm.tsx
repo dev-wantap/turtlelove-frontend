@@ -16,11 +16,11 @@ import { Link } from 'react-router-dom';
 const emailSchema = z.object({
   email: z
     .string()
-    .min(1, '이메일을 입력해주세요')
-    .email('올바른 이메일 형식이 아닙니다')
+    .min(1, { error: '이메일을 입력해주세요' })
+    .email({ error: '올바른 이메일 형식이 아닙니다' })
     .refine(
       (email) => email.endsWith('.ac.kr') || email.endsWith('.edu'),
-      '대학 이메일(.ac.kr, .edu)만 가입 가능합니다'
+      { error: '대학 이메일(.ac.kr, .edu)만 가입 가능합니다' }
     ),
 });
 
@@ -29,8 +29,8 @@ const codeSchema = z.object({
   email: z.string().email(),
   code: z
     .string()
-    .min(1, '인증번호를 입력해주세요')
-    .length(6, '인증번호는 6자리입니다'),
+    .min(1, { error: '인증번호를 입력해주세요' })
+    .length(6, { error: '인증번호는 6자리입니다' }),
 });
 
 // Step 3: 회원정보
@@ -38,31 +38,31 @@ const signupSchema = z.object({
   email: z.string().email(),
   password: z
     .string()
-    .min(1, '비밀번호를 입력해주세요')
-    .min(8, '비밀번호는 8자 이상이어야 합니다')
+    .min(1, { error: '비밀번호를 입력해주세요' })
+    .min(8, { error: '비밀번호는 8자 이상이어야 합니다' })
     .regex(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])/,
-      '비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 합니다'
+      { error: '비밀번호는 영문, 숫자, 특수문자를 모두 포함해야 합니다' }
     ),
   passwordConfirm: z.string(),
   nickname: z
     .string()
-    .min(1, '닉네임을 입력해주세요')
-    .min(2, '닉네임은 2자 이상이어야 합니다')
-    .max(20, '닉네임은 20자 이하이어야 합니다')
+    .min(1, { error: '닉네임을 입력해주세요' })
+    .min(2, { error: '닉네임은 2자 이상이어야 합니다' })
+    .max(20, { error: '닉네임은 20자 이하이어야 합니다' })
     .regex(
       /^[가-힣a-zA-Z0-9]+$/,
-      '닉네임은 한글, 영문, 숫자만 가능합니다'
+      { error: '닉네임은 한글, 영문, 숫자만 가능합니다' }
     ),
   gender: z
     .enum(['MALE', 'FEMALE'], {
-      message: '성별을 선택해주세요',
+      error: '성별을 선택해주세요',
     })
     .refine((val) => val === 'MALE' || val === 'FEMALE', {
-      message: '성별을 선택해주세요',
+      error: '성별을 선택해주세요',
     }),
 }).refine((data) => data.password === data.passwordConfirm, {
-  message: '비밀번호가 일치하지 않습니다',
+  error: '비밀번호가 일치하지 않습니다',
   path: ['passwordConfirm'],
 });
 
