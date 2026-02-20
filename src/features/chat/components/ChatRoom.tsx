@@ -42,8 +42,11 @@ export function ChatRoom({ room, currentUserId }: ChatRoomProps) {
       loadingOlderRef.current = false;
       return;
     }
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTo({
+        top: messagesContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }, [data]);
 
