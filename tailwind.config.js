@@ -50,11 +50,16 @@ export default {
       },
       animation: {
         'fadeInUp': 'fadeInUp 0.35s ease-out forwards',
+        'float': 'float 3s ease-in-out infinite',
       },
       keyframes: {
         fadeInUp: {
           '0%': { opacity: '0', transform: 'translateY(16px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-8px)' },
         },
       },
     },
